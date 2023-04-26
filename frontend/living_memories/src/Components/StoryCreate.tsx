@@ -3,8 +3,9 @@ import { GoogleMap, LoadScript, Marker, Autocomplete } from "@react-google-maps/
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const urlEndpoint = "http://localhost:8080/stories";
 
+const urlEndpoint = "http://localhost:8080/stories";
+const api_key = import.meta.env.VITE_GOOGLE_API_KEY
 const containerStyle = {
   width: "100%",
   height: "400px",
@@ -16,6 +17,12 @@ interface Location {
   lng: number;
 }
 
+interface MediaFile {
+  
+  data: string
+  type:string
+}
+
 
 
 interface Story{
@@ -23,7 +30,7 @@ interface Story{
   header:string,
   labels:string[],
   locations:Location[],
-  mediaString:string[]
+  mediaString:MediaFile[]
 }
 
 const Story: React.FC = () => {
@@ -32,7 +39,7 @@ const Story: React.FC = () => {
   const [text, setText] = useState<string>('');
   const [header, setHeader] = useState<string>('');
   const [labels, setLabels] = useState<string[]>([]);
-  const [media, setMedia] = useState<string[]>([])
+  const [media, setMedia] = useState<MediaFile[]>([])
   const navigate = useNavigate()
   
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
@@ -57,7 +64,7 @@ const Story: React.FC = () => {
     const lat = latLng?.lat();
     const lng = latLng?.lng();
     try {
-      const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyAXFU7t-c9q8N7D7c8ELp7h4eGj5LtSoHA`);
+      const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${api_key}` );
       const { results } = response.data;
       if (results.length > 0) {
         const locationData: Location = {
@@ -102,19 +109,9 @@ const Story: React.FC = () => {
 
   };
 
-  const blobToBase64 = (blob: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64Data = (reader.result as string).split(',')[1]; // Get the base64 part without the data URL prefix
-        resolve(base64Data);
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-      reader.readAsDataURL(blob);
-    });
-  };
+
+
+  
 
 
   const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -129,18 +126,51 @@ const Story: React.FC = () => {
     setLabels(event.target.value.split(',').map((label) => label.trim()));
   };
 
+
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      const blobs = Array.from(event.target.files).map((file) => file.slice(0));
-      const base64Strings = await Promise.all(blobs.map(blobToBase64));
-      
-      console.log(base64Strings); // Array of base64-encoded strings
-      setMedia(base64Strings);
+      const blobs = Array.from(event.target.files).map((file) => {
+        const blob = file.slice(0, file.size, file.type);
+        return blob;
+      });
+  
+      // Upload each media Blob
+      const base64Promises = blobs.map((blob) => blobToBase64(blob));
+      const base64DataArray = await Promise.all(base64Promises);
+  
+      // Create an array of MediaFile objects from the base64 data
+      const mediaFiles = base64DataArray.map((base64Data) => {
+        const base64 = base64Data.split(',')[1]
+        const dataType = base64Data.split(';')[0].split(':')[1];
+        console.log(base64)
+        console.log(dataType)
+        return { data: base64, type: dataType };
+      });
+      console.log(mediaFiles)
+      setMedia(mediaFiles);
     }
   };
+  
+ 
+  
+  const blobToBase64 = (blob: Blob): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Data = (reader.result as string); // Get the base64 part without the data URL prefix
+        resolve(base64Data);
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      reader.readAsDataURL(blob);
+    });
+  };
+
+
   return (
     <div>
-      <LoadScript googleMapsApiKey="AIzaSyAXFU7t-c9q8N7D7c8ELp7h4eGj5LtSoHA" libraries={["places"]}>
+      <LoadScript googleMapsApiKey={api_key} libraries={["places"]}>
           <form >
 
           <label>

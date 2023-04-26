@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0d1b55ac-f9ef-44d4-bd82-5119b5476a88" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Confrugation/CorsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Confrugation/JwtUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Controllers/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Controllers/StoryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/DTO/MediaDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Requests/SearchRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Requests/StoryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Services/StoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Controllers/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Controllers/CommentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Controllers/StoryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/DemoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/LivingStoriesApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Models/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Models/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Models/Like.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Models/Like.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Models/Locations.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Models/Locations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Models/Media.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Models/Media.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Models/Story.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Models/Story.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Repositories/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Repositories/CommentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Repositories/StoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Repositories/StoryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Services/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Services/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Services/StoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/Services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/confrugation/JwtUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/requests/CommentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Requests/CommentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/requests/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/java/com/SWE573/backend/living_stories/Requests/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/java/com/example/deneme/demo/requests/StoryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/living_stories/src/test/java/com/example/deneme/demo/DemoApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/living_stories/src/test/java/com/SWE573/backend/living_stories/LivingStoriesApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/LivingMemoriesApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/Models/Comment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/Models/Like.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/Models/Locations.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/Models/Media.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/Models/Story.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/Models/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/Repositories/StoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/Repositories/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/Services/StoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/Services/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sanan/living_memories/requests/StoryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/living_memories/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/living_memories/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/living_memories/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/living_memories/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/living_memories/src/Components/StoryCreate.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/living_memories/src/Components/StoryCreate.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/living_memories/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/living_memories/src/main.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/living_stories" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2OytGlXcENOI8fWwpxV8dGe4jii" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Senan/OneDrive/Belgeler/GitHub/SWE_573/backend"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Living_stories" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <envs>
+        <env name="DB_URL" value="jdbc:postgresql://localhost:5432/living_memories" />
+        <env name="DB_USERNAME" value="postgres" />
+        <env name="DB_PASSWORD" value="senan" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.SWE573.backend.living_stories.LivingStoriesApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0d1b55ac-f9ef-44d4-bd82-5119b5476a88" name="Changes" comment="" />
+      <created>1682544557860</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1682544557860</updated>
+      <workItem from="1682544559416" duration="1778000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
