@@ -10,18 +10,21 @@ import LoginPage from './Components/LoginPage';
 import RegisterUser from './Components/RegisterUser';
 import EditUser from './Components/EditUser';
 import Deneme from './Components/Deneme';
-import { LoadScript } from '@react-google-maps/api';
+import LandingPage from "./Components/LandingPage"
+import { LoadScript, LoadScriptNext } from '@react-google-maps/api';
 
-const api_key = import.meta.env.GOOGLE_API_KEY
+const api_key = import.meta.env.VITE_GOOGLE_API_KEY
 
 
 const App = () => {
   
   return (
     
+    
     <Router>
-      <LoadScript googleMapsApiKey= {api_key} libraries={["places"]}>
+      <LoadScriptNext googleMapsApiKey= {api_key} libraries={["places"]}>
       <Routes>
+      
         <Route path="/home" element={<HomePage/>} />
         <Route path="/deneme" element={<Deneme/>} />
         <Route path='/story' element = {<StoryCreate/>}></Route>
@@ -29,9 +32,13 @@ const App = () => {
         <Route path='/login' element = {<LoginPage/>}/>
         <Route path='/register' element = {<RegisterUser/>}/>
         <Route path='/edituser' element  = {<EditUser/>}/>
+        <Route path='/' element = {<LandingPage/>}/>
+        
       </Routes>
-      </LoadScript>
+      </LoadScriptNext>
+      
     </Router>
+   
     
   );
 };
