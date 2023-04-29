@@ -25,7 +25,7 @@ import java.util.List;
         private Long id;
 
 
-        @NotBlank
+        @JsonIgnore
         private String text;
 
         @NotBlank
@@ -44,6 +44,10 @@ import java.util.List;
 
 
         private Date endDate;
+
+        @NotBlank
+        @Column(columnDefinition = "TEXT")
+        private String richText;
 
 
 
