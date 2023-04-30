@@ -28,6 +28,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User profilePage( String username){
+        Optional<User> optionalUser = userRepository.findByName(username);
+        return optionalUser.orElse(null);
+    }
+
 
     public Long isUserLoggedIn(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
