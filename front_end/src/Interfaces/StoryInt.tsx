@@ -16,7 +16,7 @@ export interface StoryInt {
     name: string;
   }[];
 
-  comments:{
+  comments?:{
     text:string;
     user: {
       id: number;

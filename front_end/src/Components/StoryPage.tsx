@@ -150,7 +150,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
       </Container>
       <Container>
         <Row>
-          {story.comments.map((comment, index) => (
+          {story.comments &&story.comments.map((comment, index) => (
             <div key={index}>
               <p>{comment.text}</p>
               <p>By: {comment.user.name}</p>

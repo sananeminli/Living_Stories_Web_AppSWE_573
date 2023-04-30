@@ -13,12 +13,15 @@ interface Story {
       id: number;
       name: string;
     };
-    likes: {
-      id: number;
+    likes: number[]
+    comments:{
+      text:string;
       user: {
         id: number;
+        name: string;
       };
-    }[];
+      likes:number[]
+    }[]
   }
 const HomePage: React.FC = () => {
   const [stories, setStories] = useState<Story[]>([]);
@@ -37,8 +40,8 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <NavBar/>
-      <h1>Recent Stories</h1>
-      <ul>
+      <h1 style={{ textAlign: "center" }}>Recent Stories</h1>
+      <ul style={{listStyle:"none"}}>
         {stories.reverse().map((story: Story) => (
           <li key={story.id}>
             <Story story={story} />
