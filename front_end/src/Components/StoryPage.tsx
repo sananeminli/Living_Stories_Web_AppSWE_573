@@ -5,10 +5,12 @@ import axios from "axios";
 import ReactQuill from "react-quill";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-quill/dist/quill.snow.css";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import RichTextPreview from "./RichTextPreview";
 import NavBar from "./NavBar";
 import { GoogleMap, Marker } from "@react-google-maps/api";
+import { Input } from "antd";
+import TextArea from "antd/es/input/TextArea";
 
 interface StoryPageProps {
   story: StoryInt;
@@ -24,13 +26,17 @@ interface RouteParams extends Params {
 interface Location {
   lat: number;
   lng: number;
-  name:string
+  name: string;
 }
 
 interface LocationProps {
   slocations: Location[];
 }
 
+interface CommentRequestInt{
+  text:string;
+  storyId:number
+}
 
 const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
   const StoryMarkers: FC<LocationProps> = ({ slocations }) => {
@@ -43,11 +49,13 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
         }}
       />
     ));
-  
+
     return <>{markers}</>;
   };
+  const [comment, setComment] = useState<string>(' ');
 
-  console.log(story)
+  const storyId = story.id
+  console.log(story);
 
   let latSum = 0;
   let lngSum = 0;
@@ -64,6 +72,33 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
 
   // Set map center
   const mapCenter = { lat: latAvg, lng: lngAvg };
+  
+  
+  const handleCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+    setComment(event.target.value);
+  }
+  const RequestData:CommentRequestInt ={
+    text:comment,storyId:storyId
+  }
+
+  const sendComment = async () =>{
+
+    try {
+      
+      const response = await axios.post(
+        "http://localhost:8080/stories/comments",
+        RequestData,
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+    window.location.reload();
+  }
 
   return (
     <>
@@ -76,17 +111,17 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
           <p>By: {story.user.name}</p>
         </Row>
         <Row>
-          <Col xs={3}>
+          <Col xs={8}>
             <RichTextPreview content={story.richText} />
           </Col>
 
-          <Col>
+          <Col xs ={4}>
             <GoogleMap
               zoom={3}
               mapContainerStyle={containerStyle}
               center={mapCenter}
             >
-              <StoryMarkers slocations = {story.locations}/>
+              <StoryMarkers slocations={story.locations} />
             </GoogleMap>
           </Col>
         </Row>
@@ -94,23 +129,31 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
       </Container>
       <Container>
         <Row>
-        {story.comments.map((comment, index) => (
-          <div key={index}>
-            <p>{comment.text}</p>
-            <p>By: {comment.user.name}</p>
-            <p>Likes: {comment.likes.length}</p>
-          </div>
-        ))}
+          <Col xs = {12}>
+            <TextArea autoSize  = {true}  placeholder="Write Comment!" onChange={handleCommentChange}></TextArea>
+          </Col>
+          <Col xs = {6}>
+            <Button onClick={sendComment}> Add Comment</Button>
+          </Col>
         </Row>
       </Container>
-
-      
+      <Container>
+        <Row>
+          {story.comments.map((comment, index) => (
+            <div key={index}>
+              <p>{comment.text}</p>
+              <p>By: {comment.user.name}</p>
+              <p>Likes: {comment.likes.length}</p>
+            </div>
+          ))}
+        </Row>
+      </Container>
     </>
   );
 };
 
 const StoryPageContainer: React.FC = () => {
-  const [story, setStory] = useState<StoryInt >();
+  const [story, setStory] = useState<StoryInt>();
   const { id } = useParams<RouteParams>();
 
   useEffect(() => {
