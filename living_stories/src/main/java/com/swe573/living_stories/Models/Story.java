@@ -55,7 +55,7 @@ import java.util.List;
 
 
 
-    @JsonIncludeProperties(value = {"id" , "name"})
+        @JsonIncludeProperties(value = {"id" , "name"})
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false)
         private User user;
