@@ -24,6 +24,14 @@ public class UserController {
         return ResponseEntity.ok(newUser);
     }
 
+    @GetMapping("/{username}")
+    public User getProfilePage(HttpServletRequest request, @PathVariable String username){
+        userService.isUserLoggedIn(request);
+        return userService.profilePage(username);
+    }
+
+
+
 
 
 

@@ -1,6 +1,6 @@
 import React, { useState, useRef, ChangeEvent } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import 'react-quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
 import {
   GoogleMap,
   LoadScript,
@@ -11,9 +11,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import { Col, Row, Container } from "react-bootstrap";
+import NavBar from "./NavBar";
 
 const urlEndpoint = "http://localhost:8080/stories";
-const api_key = import.meta.env.GOOGLE_API_KEY;
+const api_key = import.meta.env.VITE_GOOGLE_API_KEY;
 const containerStyle = {
   width: "100%",
   height: "400px",
@@ -31,7 +32,7 @@ interface Story {
   labels: string[];
   locations: Location[];
   mediaString: string[];
-  richText:string
+  richText: string;
 }
 
 const Story: React.FC = () => {
@@ -47,7 +48,7 @@ const Story: React.FC = () => {
   const [editorContent, setEditorContent] = useState("");
 
   const navigate = useNavigate();
- 
+
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const handleEditorChange = (content: string) => {
     setEditorContent(content);
@@ -97,7 +98,7 @@ const Story: React.FC = () => {
       labels,
       locations,
       mediaString: media,
-      richText:editorContent
+      richText: editorContent,
     };
     async function postData() {
       try {
@@ -117,25 +118,7 @@ const Story: React.FC = () => {
     }
 
     postData();
-    navigate("/home", { replace: true });
-  };
-
-  const blobToBase64 = (blob: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64Data = (reader.result as string).split(",")[1]; // Get the base64 part without the data URL prefix
-        resolve(base64Data);
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-      reader.readAsDataURL(blob);
-    });
-  };
-
-  const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
+    navigate("/home");
   };
 
   const handleHeaderChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -144,18 +127,6 @@ const Story: React.FC = () => {
 
   const handleLabelsChange = (event: ChangeEvent<HTMLInputElement>) => {
     setLabels(event.target.value.split(",").map((label) => label.trim()));
-  };
-
-  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const blobs = Array.from(event.target.files).map((file) => file.slice(0));
-      const base64Strings = await Promise.all(blobs.map(blobToBase64));
-
-      console.log(base64Strings); // Array of base64-encoded strings
-      setMedia(base64Strings);
-    }
-
-
   };
 
   const modules = {
@@ -182,81 +153,11 @@ const Story: React.FC = () => {
   ];
   return (
     <>
-      <Container>
-        <Row>
-          <Col >
-            <ReactQuill value={editorContent} onChange={handleEditorChange} theme="snow" />
-          </Col>
-          <Col>
-            <Row >
-              <div className="form-group">
-                <label>Locations:</label>
-                <Autocomplete
-                  onLoad={(autocomplete) => {
-                    autocompleteRef.current = autocomplete;
-                  }}
-                  onPlaceChanged={handleLocationSelect}
-                >
-                  <input type="text" className="form-control" />
-                </Autocomplete>
-                <ul>
-                  {locations.map((loc, index) => (
-                    <div key={index}>
-                      <li>{loc.name || `${loc.lat}, ${loc.lng}`}</li>
-                      <button
-                        type="button"
-                        className="btn btn-secondary"
-                        onClick={() =>
-                          setLocations(locations.filter((_, i) => i !== index))
-                        }
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  ))}
-                </ul>
-              </div>
-            </Row>
-            <Row>
-            <ReactQuill
-              theme="snow"
-              value={editorContent}
-              onChange={handleEditorChange}
-              formats={formats}
-              modules={modules}
-            />
-            </Row>
-            <Row>
-              <GoogleMap
-                mapContainerStyle={containerStyle}
-                center={mapCenter}
-                zoom={20}
-                onClick={handleMapClick}
-              >
-                {locations.map((loc, index) => (
-                  <Marker
-                    key={index}
-                    position={{ lat: loc.lat, lng: loc.lng }}
-                  />
-                ))}
-              </GoogleMap>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
+      <NavBar />
       <Container>
         <Row>
           <Col>
             <form>
-              <div className="form-group">
-                <label>Text:</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={text}
-                  onChange={handleTextChange}
-                />
-              </div>
               <div className="form-group">
                 <label>Header:</label>
                 <input
@@ -276,26 +177,114 @@ const Story: React.FC = () => {
                   onChange={handleLabelsChange}
                 />
               </div>
+              <ul style={{ display: "flex", flexDirection: "row" }}>
+                {labels.map((value, index) => (
+                  <div key={index}>
+                    <li
+                      style={{
+                        display: "inline-block",
+                        marginRight: "0.5em",
+                        marginLeft: "0.5em",
+                      }}
+                    >
+                      {value}
+                    </li>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() =>
+                        setLabels(labels.filter((_, i) => i !== index))
+                      }
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))}
+              </ul>
 
-              <button
+              
+            </form>
+          </Col>
+        </Row>
+        <Row></Row>
+      </Container>
+      <Container>
+        <Row>
+          <Col sm={8}>
+            
+              <ReactQuill
+                theme="snow"
+                value={editorContent}
+                onChange={handleEditorChange}
+                formats={formats}
+                modules={modules}
+              />
+            
+          </Col>
+          <Col sm={4}>
+            <Row>
+              <div className="form-group">
+                <label>Locations:</label>
+                <Autocomplete
+                  onLoad={(autocomplete) => {
+                    autocompleteRef.current = autocomplete;
+                  }}
+                  onPlaceChanged={handleLocationSelect}
+                >
+                  <input type="text" className="form-control" />
+                </Autocomplete>
+                <ul style={{ display: "flex", flexDirection: "row" }}>
+                  {locations.map((loc, index) => (
+                    <div key={index}>
+                      <li
+                        style={{
+                          display: "inline-block",
+                          marginRight: "0.5em",
+                          marginLeft: "0.5em",
+                        }}
+                      >
+                        {loc.name || `${loc.lat}, ${loc.lng}`}
+                      </li>
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() =>
+                          setLocations(locations.filter((_, i) => i !== index))
+                        }
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </ul>
+              </div>
+            </Row>
+
+            <Row>
+              <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={mapCenter}
+                zoom={20}
+                onClick={handleMapClick}
+              >
+                {locations.map((loc, index) => (
+                  <Marker
+                    key={index}
+                    position={{ lat: loc.lat, lng: loc.lng }}
+                  />
+                ))}
+              </GoogleMap>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+      <button
                 type="submit"
                 className="btn btn-primary"
                 onClick={handleSubmit}
               >
                 Submit
               </button>
-            </form>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <div className="row">
-              <div className="col-md-8"></div>
-              <div className="col-md-4"></div>
-            </div>
-          </Col>
-        </Row>
-      </Container>
     </>
   );
 };

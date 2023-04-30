@@ -6,11 +6,11 @@ import ReactQuill from "react-quill";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-quill/dist/quill.snow.css";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import RichTextPreview from "./RichTextPreview";
 import NavBar from "./NavBar";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import { Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import LikeButton from "./LikeButton";
 
 interface StoryPageProps {
   story: StoryInt;
@@ -33,13 +33,13 @@ interface LocationProps {
   slocations: Location[];
 }
 
-interface CommentRequestInt{
-  text:string;
-  storyId:number
+interface CommentRequestInt {
+  text: string;
+  storyId: number;
 }
 
 const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
-  const StoryMarkers: FC<LocationProps> = ({ slocations }) => {
+  const StoryMarkers: React.FC<LocationProps> = ({ slocations }) => {
     const markers = slocations.map((location, index) => (
       <Marker
         key={index}
@@ -52,9 +52,9 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
 
     return <>{markers}</>;
   };
-  const [comment, setComment] = useState<string>(' ');
+  const [comment, setComment] = useState<string>(" ");
 
-  const storyId = story.id
+  const storyId = story.id;
   console.log(story);
 
   let latSum = 0;
@@ -72,19 +72,19 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
 
   // Set map center
   const mapCenter = { lat: latAvg, lng: lngAvg };
-  
-  
-  const handleCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = (event) => {
+
+  const handleCommentChange: React.ChangeEventHandler<HTMLTextAreaElement> = (
+    event
+  ) => {
     setComment(event.target.value);
-  }
-  const RequestData:CommentRequestInt ={
-    text:comment,storyId:storyId
-  }
+  };
+  const RequestData: CommentRequestInt = {
+    text: comment,
+    storyId: storyId,
+  };
 
-  const sendComment = async () =>{
-
+  const sendComment = async () => {
     try {
-      
       const response = await axios.post(
         "http://localhost:8080/stories/comments",
         RequestData,
@@ -98,7 +98,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
       console.error("Error:", error);
     }
     window.location.reload();
-  }
+  };
 
   return (
     <>
@@ -112,10 +112,15 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
         </Row>
         <Row>
           <Col xs={8}>
-            <RichTextPreview content={story.richText} />
+            <ReactQuill
+              value={story.richText}
+              readOnly={true}
+              modules={{ toolbar: false }}
+            />
+            
           </Col>
 
-          <Col xs ={4}>
+          <Col xs={4}>
             <GoogleMap
               zoom={3}
               mapContainerStyle={containerStyle}
@@ -127,12 +132,18 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
         </Row>
         <p>Likes: {story.likes.length}</p>
       </Container>
+      
+
       <Container>
         <Row>
-          <Col xs = {12}>
-            <TextArea autoSize  = {true}  placeholder="Write Comment!" onChange={handleCommentChange}></TextArea>
+          <Col xs={12}>
+            <TextArea
+              autoSize={true}
+              placeholder="Write Comment!"
+              onChange={handleCommentChange}
+            ></TextArea>
           </Col>
-          <Col xs = {6}>
+          <Col xs={6}>
             <Button onClick={sendComment}> Add Comment</Button>
           </Col>
         </Row>
@@ -163,6 +174,8 @@ const StoryPageContainer: React.FC = () => {
         withCredentials: true,
       });
       setStory(response.data);
+      
+      
     };
 
     fetchStory();

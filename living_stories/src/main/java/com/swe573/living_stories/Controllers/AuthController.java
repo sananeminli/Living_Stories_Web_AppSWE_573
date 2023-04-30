@@ -50,21 +50,21 @@ public class AuthController {
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("jwtToken")) {
+                if (cookie.getName().equals("jwt_Token")) {
                     cookie.setMaxAge(0);
                     cookie.setPath("/");
                     HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
                     response.addCookie(cookie);
+                    System.out.println(cookie);
                 }
             }
         }
 
     }
+    
 
-    @GetMapping("/loginDeneme")
-    public Long deneme(HttpServletRequest request)  {
-        return userService.isUserLoggedIn(request);
-    }
+
+
 
 
 }

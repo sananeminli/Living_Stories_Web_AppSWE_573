@@ -25,6 +25,8 @@ public class StoryRequest {
 
     private String endDate;
 
+    String richText;
+
 
 
 

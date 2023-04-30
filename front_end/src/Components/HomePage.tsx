@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Story from './Story';
 import axios from 'axios';
+import NavBar from './NavBar';
 
 
 interface Story {
@@ -35,20 +36,10 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      <nav>
-
-            <Link to="/story">Create New Story</Link>
-            <Link to = "/edituser">Edit User</Link>
-          
-         
-        
-            <Link to="/about">Deneme</Link>
-         
-       
-      </nav>
+      <NavBar/>
       <h1>Recent Stories</h1>
       <ul>
-        {stories.map((story: Story) => (
+        {stories.reverse().map((story: Story) => (
           <li key={story.id}>
             <Story story={story} />
           </li>

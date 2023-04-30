@@ -45,6 +45,7 @@ public class StoryController {
         story.setUser(optionalUser.get());
         story.setHeader(storyRequest.getHeader());
         story.setLabels(storyRequest.getLabels());
+        story.setRichText(storyRequest.getRichText());
         Story savedStory = storyService.createStory(story);
         if (storyRequest.getLocations() !=null){
             storyService.addLocation(savedStory.getId(),storyRequest.getLocations());
@@ -138,6 +139,8 @@ public class StoryController {
         Long userId = userService.isUserLoggedIn(request);
         return storyService.likeStory(storyId, userId);
     }
+
+
 
 
 
