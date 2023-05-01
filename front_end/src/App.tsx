@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "./Components/HomePage";
-import StoryCreate from "./Components/StoryCreate";
-import StoryPage from "./Components/StoryPage";
+import HomePage from "./Components/Pages/HomePage";
+import StoryCreate from "./Components/Pages/StoryCreate";
+import StoryPage from "./Components/Pages/StoryPage";
 //import LogOut from './Components/Logout';
-import LoginPage from "./Components/LoginPage";
-import RegisterUser from "./Components/RegisterUser";
-import EditUser from "./Components/EditUser";
+import LoginPage from "./Components/Pages/LoginPage";
+import RegisterUser from "./Components/Pages/RegisterUser";
+import EditUser from "./Components/Pages/EditUser";
 import Deneme from "./Components/Deneme";
-import LandingPage from "./Components/LandingPage";
+import LandingPage from "./Components/Pages/LandingPage";
 import { LoadScript, LoadScriptNext } from "@react-google-maps/api";
-import ProfilePage from "./Components/ProfilePage";
+import ProfilePage from "./Components/Pages/ProfilePage";
 
 const api_key = import.meta.env.VITE_GOOGLE_API_KEY;
 
