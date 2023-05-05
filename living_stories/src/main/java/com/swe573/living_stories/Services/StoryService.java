@@ -32,11 +32,14 @@ public class StoryService {
                 .orElseThrow(() -> new EntityNotFoundException("Story not found with id: " + id));
 
 
-        if (secondStory.getText() != null) {
-            oldStory.setText(secondStory.getText());
+        if (secondStory.getRichText() != null) {
+            oldStory.setRichText(secondStory.getRichText());
         }
         if (secondStory.getHeader() != null) {
             oldStory.setHeader(secondStory.getHeader());
+        }
+        if (secondStory.getLabels() != null) {
+            oldStory.setLabels(oldStory.getLabels());
         }
 
 

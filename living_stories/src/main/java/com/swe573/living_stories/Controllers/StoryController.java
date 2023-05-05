@@ -72,7 +72,7 @@ public class StoryController {
 
 
 
-    @PutMapping("/{id}")
+    @PostMapping("/edit/{id}")
     public ResponseEntity<Story> updateStory(@PathVariable Long id, @RequestBody StoryRequest storyRequest,HttpServletRequest request) {
         Long userId = userService.isUserLoggedIn(request);
         Story existingStory = storyService.getStoryById(id);
