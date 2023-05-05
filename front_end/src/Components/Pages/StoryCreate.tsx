@@ -16,6 +16,7 @@ import NavBar from "../Components/NavBar";
 import dayjs from "dayjs";
 import { RadioGroup } from "../Components/DateRadio";
 import DatePicker from "antd/es/date-picker";
+import { Radio, RadioChangeEvent } from "antd";
 
 const urlEndpoint = "http://localhost:8080/stories";
 const api_key = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -69,11 +70,11 @@ const Story: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string>("exact-year");
   const [selectedOptionEnd, setSelectedOptionEnd] =
     useState<string>("exact-year");
-  const onRadioChange = (value: string) => {
-    setSelectedOption(value);
+  const onRadioChange = (e: RadioChangeEvent) => {
+    setSelectedOption(e.target.value);
   };
-  const onRadioChangeEnd = (value: string) => {
-    setSelectedOptionEnd(value);
+  const onRadioChangeEnd = (e: RadioChangeEvent) => {
+    setSelectedOptionEnd(e.target.value);
   };
 
   const navigate = useNavigate();
@@ -235,66 +236,70 @@ const Story: React.FC = () => {
         </Row>
         <Row>
           <Col>
-          <Row>
-          <RadioGroup
-            options={options}
-            onChange={onRadioChange}
-            value={selectedOption}
-          />
-          {selectedOption === "exact-year" && (
-            <DatePicker
-            placeholder="Select start date!"
-              status="error"
-              picker="date"
-              format={exactDateFormat}
-              onChange={(date) => {
-                const start = dayjs(date, exactDateFormat);
-                setStartDate(start);
-                console.log(startDate?.toString);
-                // Do something with the selected date value here
-              }}
-            />
-          )}
-          {selectedOption === "month" && (
-            <DatePicker
-              status="error"
-              format={monthFormat}
-              picker="month"
-              placeholder="Select start date!"
-              onChange={(date) => {
-                const start = dayjs(date, monthFormat);
-                setStartDate(start);
-                console.log(startDate?.toString);
-                // Do something with the selected date value here
-              }}
-            />
-          )}
-          {selectedOption === "year" && (
-            <DatePicker
-            placeholder="Select start date!"
-              status="error"
-              format={yearFormat}
-              picker="year"
-              onChange={(date) => {
-                const start = dayjs(date, yearFormat);
-                setStartDate(start);
-                console.log(startDate?.toString);
-                // Do something with the selected date value here
-              }}
-            />
-          )}
-          </Row>
+            <Row>
+              <Radio.Group
+                options={options}
+                onChange={onRadioChange}
+                value={selectedOption}
+                optionType="button"
+                buttonStyle="solid"
+              />
+              {selectedOption === "exact-year" && (
+                <DatePicker
+                  placeholder="Select start date!"
+                  status="error"
+                  picker="date"
+                  format={exactDateFormat}
+                  onChange={(date) => {
+                    const start = dayjs(date, exactDateFormat);
+                    setStartDate(start);
+                    console.log(startDate?.toString);
+                    // Do something with the selected date value here
+                  }}
+                />
+              )}
+              {selectedOption === "month" && (
+                <DatePicker
+                  status="error"
+                  format={monthFormat}
+                  picker="month"
+                  placeholder="Select start date!"
+                  onChange={(date) => {
+                    const start = dayjs(date, monthFormat);
+                    setStartDate(start);
+                    console.log(startDate?.toString);
+                    // Do something with the selected date value here
+                  }}
+                />
+              )}
+              {selectedOption === "year" && (
+                <DatePicker
+                  placeholder="Select start date!"
+                  status="error"
+                  format={yearFormat}
+                  picker="year"
+                  onChange={(date) => {
+                    const start = dayjs(date, yearFormat);
+                    setStartDate(start);
+                    console.log(startDate?.toString);
+                    // Do something with the selected date value here
+                  }}
+                />
+              )}
+            </Row>
           </Col>
           <Col>
             <Row>
-              <RadioGroup
+              <Radio.Group
                 options={options}
                 onChange={onRadioChangeEnd}
                 value={selectedOptionEnd}
+                optionType="button"
+                buttonStyle="solid"
               />
               {selectedOptionEnd === "exact-year" && (
                 <DatePicker
-                placeholder="Select end date!"
+                  placeholder="Select end date!"
                   picker="date"
                   format={exactDateFormat}
                   onChange={(date) => {
@@ -307,7 +312,7 @@ const Story: React.FC = () => {
               )}
               {selectedOptionEnd === "month" && (
                 <DatePicker
-                placeholder="Select end date!"
+                  placeholder="Select end date!"
                   format={monthFormat}
                   picker="month"
                   onChange={(date) => {

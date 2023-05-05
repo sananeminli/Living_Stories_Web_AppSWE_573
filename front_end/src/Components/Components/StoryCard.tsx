@@ -1,6 +1,7 @@
-import { Badge, Card, Col, Row } from "antd";
+import { Avatar, Badge, Card, Col, Row } from "antd";
 import React from "react";
-import { Link } from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
+
 
 interface Story {
   id: number;
@@ -9,6 +10,7 @@ interface Story {
   user?: {
     id: number;
     name: string;
+    photo?:string
   };
   labels:string[]
 
@@ -36,25 +38,6 @@ interface StoryProps {
 }
 
 const StoryComponent: React.FC<StoryProps> = ({ story }) => {
-  const colors: string[] = [
-    'pink',
-    'red',
-    'yellow',
-    'orange',
-    'cyan',
-    'green',
-    'blue',
-    'purple',
-    'geekblue',
-    'magenta',
-    'volcano',
-    'gold',
-    'lime',
-  ];
-  
-  // Get a random color from the array
-  const randomColor = colors[Math.floor(Math.random() * colors.length)];
-  
   
   
   return (
@@ -72,7 +55,7 @@ const StoryComponent: React.FC<StoryProps> = ({ story }) => {
                   
                 ))}
         </div>
-      } color={randomColor} >
+      } color="lime" >
       <Card
         title={story.header}
         hoverable={true}
@@ -86,10 +69,12 @@ const StoryComponent: React.FC<StoryProps> = ({ story }) => {
       >
         
         <Row>
+        
           {story.user?.name && (
             <Col xs={3}>
+              {story.user?.photo? <Avatar size={"large"}  src={<img src={story.user.photo} alt="avatar" />}/> :<Avatar style={{ backgroundColor: '#87d068' }} size ={"large"} icon={<UserOutlined />}></Avatar>}
               {" "}
-              <p>Author: {story.user.name}</p>
+              <p> {story.user.name}</p>
             </Col>
           )}
           <Col xs={6}>

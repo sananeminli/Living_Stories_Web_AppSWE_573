@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import StoryComponent from "./Story";
 import NavBar from "./NavBar";
-import { Button } from "react-bootstrap";
+import StoryComponent from "./Story";
 
 interface Story {
   id: number;
@@ -17,14 +16,6 @@ interface Story {
   }[];
   startDate: string;
   endDate?: string;
-  comments:{
-    text:string;
-    user: {
-      id: number;
-      name: string;
-    };
-    likes:number[]
-  }[]
 }
 
 interface User {
@@ -43,25 +34,18 @@ interface RouteParams {
   [key: string]: string | undefined;
 }
 
-
 const ProfilePage: React.FC = () => {
   const { name } = useParams<RouteParams>();
   const [user, setUser] = useState<User | null>(null);
-  const [isAuthor, setIsAuthor] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get<User>(
-          `http://localhost:8080/users/${name}`,
-          { withCredentials: true }
-        );
-        const response_user = await axios.get<User>(
-          `http://localhost:8080/users/profile`,
+          `http://localhost:8080/profile`,
           { withCredentials: true }
         );
         setUser(response.data);
-        if(response_user.data.name===name){setIsAuthor(true)}
       } catch (error) {
         console.error(error);
       }
@@ -77,12 +61,10 @@ const ProfilePage: React.FC = () => {
   return (
     <div>
       <NavBar/>
-      
       <h1>{user.name}'s stories</h1>
-      {isAuthor&&<Button>Edit</Button>}
       <ul>
         {user.stories?.map((story) => (
-          <li style={{listStyle:"none"}} key={story.id}>
+          <li key={story.id}>
             <StoryComponent story={story}/>
           </li>
         ))}

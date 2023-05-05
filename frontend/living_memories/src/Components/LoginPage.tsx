@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
 
 interface LoginFormData {
   email: string;
@@ -17,7 +17,44 @@ const LoginPage: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  /*const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
+    const data: LoginFormData = {
+      email: formData.email,
+      password: formData.password,
+    };
+
+    fetch('http://localhost:8080/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('Network response was not ok.');
+      })
+      .then((data) => {
+        console.log('bura girdi')
+        console.log(data);
+
+        // Store the JWT token in a cookie
+        Cookies.set('jwt_token', data.token);
+        navigate('/home' , {replace:true})
+
+        // Handle successful login, e.g., redirect to another page, etc.
+      })
+      .catch((error) => {
+        console.error(error);
+        // Handle errors, e.g., display an error message, etc.
+      });
+  };*/
+ 
   
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

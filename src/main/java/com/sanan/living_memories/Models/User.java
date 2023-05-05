@@ -1,11 +1,9 @@
-package com.swe573.living_stories.Models;
+package com.sanan.living_memories.Models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -31,7 +29,7 @@ public class User{
 
 
     @NotBlank
-    @Column(unique = true)
+    @Column
     private String name;
 
     @Email
@@ -43,26 +41,19 @@ public class User{
     @Column
     private String password;
 
-    //@Lob
-    //private byte[] photo;
-
-
-
-    @Column(columnDefinition = "TEXT")
-    private String photo;
-
-
+    @Lob
+    private byte[] photo;
 
     @Column(columnDefinition = "TEXT")
     private String biography;
 
 
-    @JsonIgnoreProperties("user")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Story> stories;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
     @JsonIgnore

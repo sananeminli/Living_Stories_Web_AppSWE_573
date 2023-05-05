@@ -6,6 +6,7 @@ export interface StoryInt {
     id: number;
     name: string;
   };
+  labels:string[]
 
   likes: number[];
 
@@ -16,7 +17,8 @@ export interface StoryInt {
     name: string;
   }[];
 
-  comments?:{
+  comments:{
+    id:number
     text:string;
     user: {
       id: number;

@@ -3,6 +3,7 @@ package com.swe573.living_stories.Services;
 import com.swe573.living_stories.Confrugation.JwtUtils;
 import com.swe573.living_stories.Models.User;
 import com.swe573.living_stories.Repositories.UserRepository;
+import com.swe573.living_stories.Requests.EditUser;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -88,23 +89,11 @@ public class UserService {
         return false;
     }
 
-    public User updateUser(User updatedUser) {
-        User existingUser = userRepository.findById(updatedUser.getId())
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + updatedUser.getId()));
+    public User updateUser(EditUser updatedUser , Long id) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
 
-        if (updatedUser.getName() != null) {
-            existingUser.setName(updatedUser.getName());
-        }
-
-        if (updatedUser.getEmail() != null) {
-            existingUser.setEmail(updatedUser.getEmail());
-        }
-
-        if (updatedUser.getPassword() != null) {
-            existingUser.setPassword(updatedUser.getPassword());
-        }
-
-        if (updatedUser.getPhoto() != null) {
+        if (updatedUser.getPhoto()!= null){
             existingUser.setPhoto(updatedUser.getPhoto());
         }
 

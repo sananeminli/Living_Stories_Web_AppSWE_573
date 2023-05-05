@@ -1,0 +1,82 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Button, Form, Input, Row } from "antd";
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
+const LoginPage: React.FC = () => {
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (event: any) => {
+    const loginData: LoginFormData = {
+      email: event.Email,
+      password: event.Password,
+    };
+
+    debugger;
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/login",
+        loginData,
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        // Redirect or update the state based on successful login
+        console.log("Login successful");
+        navigate("/home");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ... (return code)
+
+  return (
+    <div className="login-page">
+      <Row style={{ justifyContent: "center", marginTop: "50px" }}>
+        <Form
+          name="control-ref"
+          onFinish={handleSubmit}
+          style={{ maxWidth: 600 }}
+        >
+          <Form.Item name="Email" label="Email" rules={[{ required: true }]}>
+            <Input onChange={handleChange} />
+          </Form.Item>
+          <Form.Item
+            name="Password"
+            label="Password"
+            rules={[{ required: true }]}
+          >
+            <Input.Password
+              placeholder="input password"
+              onChange={handleChange}
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Row>
+    </div>
+  );
+};
+
+export default LoginPage;

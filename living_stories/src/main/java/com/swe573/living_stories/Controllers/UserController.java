@@ -1,6 +1,7 @@
 package com.swe573.living_stories.Controllers;
 
 import com.swe573.living_stories.Models.User;
+import com.swe573.living_stories.Requests.EditUser;
 import com.swe573.living_stories.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
@@ -47,16 +49,12 @@ public class UserController {
 
 
 
-    @PutMapping("/update")
-    public ResponseEntity<User> updateUser(HttpServletRequest request, @RequestBody User user) {
+    @PostMapping("/update")
+    public ResponseEntity<User> updateUser(HttpServletRequest request, @RequestBody EditUser user) {
         Long userId = userService.isUserLoggedIn(request);
-        Optional<User> existingUser = userService.getUserById(userId);
-        if (existingUser.isPresent()) {
-            user.setId(userId);
-            User updatedUser = userService.updateUser(user);
-            return ResponseEntity.ok(updatedUser);
-        }
-        return ResponseEntity.notFound().build();
+
+
+        return ResponseEntity.ok(userService.updateUser(user , userId));
     }
 
     @GetMapping("/all")
