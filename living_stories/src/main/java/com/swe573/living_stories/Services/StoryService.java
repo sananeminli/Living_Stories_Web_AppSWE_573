@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StoryService {
@@ -39,7 +40,7 @@ public class StoryService {
             oldStory.setHeader(secondStory.getHeader());
         }
         if (secondStory.getLabels() != null) {
-            oldStory.setLabels(oldStory.getLabels());
+            oldStory.setLabels(secondStory.getLabels());
         }
 
 
@@ -73,22 +74,19 @@ public class StoryService {
 
     }
 
-    public List<Story> getFollowingStories(Long id){
+   
 
-        Optional<User> optionalUser =userRepository.findById(id);
+    public List<Story> getFollowingStories(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
         List<Story> result = new ArrayList<>();
-        if (optionalUser.isPresent()){
+        if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            List<Story> allStories = storyRepository.findAll();
-            for (Story story:allStories) {
-                if (user.getFollowing().contains(story.getUser())){
-                    result.add(story);
-                }
-            }
-
+            List<Long> followingIds = user.getFollowing().stream().map(User::getId).collect(Collectors.toList());
+            result = storyRepository.findByUserIdIn(followingIds);
         }
         return result;
     }
+
 
 
     public String likeStory(Long storyId , Long userId){

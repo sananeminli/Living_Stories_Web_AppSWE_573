@@ -15,5 +15,5 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
     List<Story> findByUserId(Long user_id);
 
 
-
+    List<Story> findByUserIdIn(List<Long> followingIds);
 }
