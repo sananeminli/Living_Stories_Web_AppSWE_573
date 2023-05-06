@@ -27,6 +27,8 @@ public class StoryRequest {
 
     private String richText;
 
+    private String season;
+
 
 
 

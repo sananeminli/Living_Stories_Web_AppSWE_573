@@ -2,11 +2,13 @@ package com.swe573.living_stories.Models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.swe573.living_stories.Confrugation.DateParser;
 import com.swe573.living_stories.DTO.MediaDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +21,8 @@ import java.util.List;
 
 
     public class Story {
+
+
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,12 +41,16 @@ import java.util.List;
 
         @Column
         private ArrayList<Long> likes = new ArrayList<>();
+        @Column
+        private String season;
 
 
-
+        @JsonIgnore
+        @Column
         private Date startDate;
 
-
+        @JsonIgnore
+        @Column
         private Date endDate;
 
         @NotBlank
@@ -52,10 +60,26 @@ import java.util.List;
 
 
 
+        @JsonProperty("startDate")
+        public String returnStartDate(){
+
+            return DateParser.getDateFromDate(startDate);
+        }
+        @JsonProperty("endDate")
+        public String returnEndDate(){
+
+            return DateParser.getDateFromDate(endDate);
+        }
 
 
 
-        @JsonIncludeProperties(value = {"id" , "name", "photo"})
+
+
+
+
+
+
+    @JsonIncludeProperties(value = {"id" , "name", "photo"})
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id", nullable = false)
         private User user;

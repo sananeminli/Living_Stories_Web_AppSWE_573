@@ -16,7 +16,8 @@ import NavBar from "../Components/NavBar";
 import dayjs from "dayjs";
 import { RadioGroup } from "../Components/DateRadio";
 import DatePicker from "antd/es/date-picker";
-import { Radio, RadioChangeEvent } from "antd";
+import { Radio, RadioChangeEvent, Select, TimePicker } from "antd";
+import type { Dayjs } from "dayjs";
 
 const urlEndpoint = "http://localhost:8080/stories";
 const api_key = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -38,6 +39,9 @@ interface Story {
   locations: Location[];
   mediaString: string[];
   richText: string;
+  startDate?: string;
+  endDate?: string;
+  season?: string;
 }
 type Option = {
   label: string;
@@ -59,6 +63,8 @@ const Story: React.FC = () => {
     lat: 41.0856396,
     lng: 29.0424937,
   });
+  const [startTime, setStartTime] = useState<dayjs.Dayjs | null>();
+  const [endTime, setEndTime] = useState<dayjs.Dayjs | null>();
   const [locations, setLocations] = useState<Location[]>([]);
   const [text, setText] = useState<string>("");
   const [header, setHeader] = useState<string>("");
@@ -68,6 +74,35 @@ const Story: React.FC = () => {
   const [media, setMedia] = useState<string[]>([]);
   const [editorContent, setEditorContent] = useState("");
   const [selectedOption, setSelectedOption] = useState<string>("exact-year");
+  const [selectedSeason, setSelectedSeason] = useState<string>();
+  const [requestStartDate, setRequestStartDate] = useState<string>();
+  const seasonOptions = [
+    { value: "spring", label: "Spring" },
+    { value: "summer", label: "Summer" },
+    { value: "fall", label: "Fall" },
+    { value: "winter", label: "Winter" },
+  ];
+  const dateFormats: { [key: string]: string } = {
+    "exact-year": "DD/MM/YYYY",
+    month: "MM/YYYY",
+    year: "YYYY",
+  };
+  const combinedStartDateTimeString = `${
+    startDate && startTime
+      ? dayjs(
+          `${startDate.format("YYYY-MM-DD")}T${startTime.format("HH:mm:ss")}`
+        ).format("DD/MM/YYYY HH:mm:ss")
+      : startDate?.format(dateFormats[selectedOption])
+  }`;
+
+  const combinedEndDateTimeString = `${
+    endtDate && endTime
+      ? dayjs(
+          `${endtDate.format("YYYY-MM-DD")}T${endTime.format("HH:mm:ss")}`
+        ).format("DD/MM/YYYY HH:mm:ss")
+      : endtDate?.format(dateFormats[selectedOption])
+  }`;
+
   const [selectedOptionEnd, setSelectedOptionEnd] =
     useState<string>("exact-year");
   const onRadioChange = (e: RadioChangeEvent) => {
@@ -121,6 +156,15 @@ const Story: React.FC = () => {
     }
   };
 
+  const handleStartTimeChange = (time: Dayjs | null, timeString: string) => {
+    setStartTime(time);
+    console.log(time?.format("HH:mm:ss"));
+  };
+  const handleEndTimeChange = (time: Dayjs | null, timeString: string) => {
+    setEndTime(time);
+    console.log(time?.format("HH:mm:ss"));
+  };
+
   const handleSubmit = () => {
     const storyRequest: Story = {
       text,
@@ -129,6 +173,9 @@ const Story: React.FC = () => {
       locations,
       mediaString: media,
       richText: editorContent,
+      ...(startDate && { startDate: combinedStartDateTimeString }),
+      ...(endtDate && { endDate: combinedEndDateTimeString }),
+      ...(selectedSeason && { season: selectedSeason }),
     };
     async function postData() {
       try {
@@ -184,6 +231,8 @@ const Story: React.FC = () => {
   return (
     <>
       <NavBar />
+      {startDate && <div>Combined DateTime: {combinedStartDateTimeString}</div>}
+      {endtDate && <div>Combined DateTime: {combinedEndDateTimeString}</div>}
       <Container>
         <Row>
           <Col>
@@ -237,6 +286,12 @@ const Story: React.FC = () => {
         <Row>
           <Col>
             <Row>
+              <Select
+                value={selectedSeason}
+                onChange={(value) => setSelectedSeason(value)}
+                options={seasonOptions}
+              />
+
               <Radio.Group
                 options={options}
                 onChange={onRadioChange}
@@ -245,18 +300,23 @@ const Story: React.FC = () => {
                 buttonStyle="solid"
               />
               {selectedOption === "exact-year" && (
-                <DatePicker
-                  placeholder="Select start date!"
-                  status="error"
-                  picker="date"
-                  format={exactDateFormat}
-                  onChange={(date) => {
-                    const start = dayjs(date, exactDateFormat);
-                    setStartDate(start);
-                    console.log(startDate?.toString);
-                    // Do something with the selected date value here
-                  }}
-                />
+                <>
+                  <TimePicker
+                    onChange={handleStartTimeChange}
+                    defaultOpenValue={dayjs("00:00:00", "HH:mm:ss")}
+                  />
+                  <DatePicker
+                    placeholder="Select start date!"
+                    status="error"
+                    picker="date"
+                    format={exactDateFormat}
+                    onChange={(date) => {
+                      const start = dayjs(date, exactDateFormat);
+                      setStartDate(start);
+                      console.log(start.format(exactDateFormat));
+                    }}
+                  />
+                </>
               )}
               {selectedOption === "month" && (
                 <DatePicker
@@ -267,6 +327,7 @@ const Story: React.FC = () => {
                   onChange={(date) => {
                     const start = dayjs(date, monthFormat);
                     setStartDate(start);
+
                     console.log(startDate?.toString);
                     // Do something with the selected date value here
                   }}
@@ -290,6 +351,11 @@ const Story: React.FC = () => {
           </Col>
           <Col>
             <Row>
+              <Select
+                value={selectedSeason}
+                onChange={(value) => setSelectedSeason(value)}
+                options={seasonOptions}
+              />
               <Radio.Group
                 options={options}
                 onChange={onRadioChangeEnd}
@@ -298,17 +364,23 @@ const Story: React.FC = () => {
                 buttonStyle="solid"
               />
               {selectedOptionEnd === "exact-year" && (
-                <DatePicker
-                  placeholder="Select end date!"
-                  picker="date"
-                  format={exactDateFormat}
-                  onChange={(date) => {
-                    const start = dayjs(date, exactDateFormat);
-                    setEndDate(start);
-                    console.log(startDate?.toString);
-                    // Do something with the selected date value here
-                  }}
-                />
+                <>
+                  <TimePicker
+                    onChange={handleEndTimeChange}
+                    defaultOpenValue={dayjs("00:00:00", "HH:mm:ss")}
+                  />
+                  <DatePicker
+                    placeholder="Select end date!"
+                    picker="date"
+                    format={exactDateFormat}
+                    onChange={(date) => {
+                      const start = dayjs(date, exactDateFormat);
+                      setEndDate(start);
+                      console.log(startDate?.toString);
+                      // Do something with the selected date value here
+                    }}
+                  />
+                </>
               )}
               {selectedOptionEnd === "month" && (
                 <DatePicker
@@ -318,7 +390,7 @@ const Story: React.FC = () => {
                   onChange={(date) => {
                     const start = dayjs(date, monthFormat);
                     setEndDate(start);
-                    console.log(startDate?.toString);
+                    console.log(`startDate?.format(monthFormat)`);
                     // Do something with the selected date value here
                   }}
                 />

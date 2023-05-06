@@ -56,10 +56,12 @@ public class StoryController {
         }
         if (storyRequest.getStartDate() != null){
            storyService.addStartDate(savedStory.getId(),storyRequest.getStartDate());
-
         }
         if (storyRequest.getEndDate() != null){
             storyService.addEndDate(savedStory.getId(),storyRequest.getEndDate());
+        }
+        if (storyRequest.getSeason() != null){
+            storyService.addSeason(savedStory.getId(),storyRequest.getSeason());
         }
 
         return ResponseEntity.ok(savedStory);

@@ -1,5 +1,6 @@
 package com.swe573.living_stories.Services;
 
+import com.swe573.living_stories.Confrugation.DateParser;
 import com.swe573.living_stories.DTO.MediaDTO;
 import com.swe573.living_stories.Models.*;
 import com.swe573.living_stories.Repositories.StoryRepository;
@@ -23,6 +24,10 @@ public class StoryService {
 
     @Autowired
     private UserRepository userRepository;
+
+
+    @Autowired
+    private DateParser dateParser;
 
     public Story createStory(Story story) {
         return storyRepository.save(story);
@@ -74,7 +79,7 @@ public class StoryService {
 
     }
 
-   
+
 
     public List<Story> getFollowingStories(Long id) {
         Optional<User> optionalUser = userRepository.findById(id);
@@ -156,34 +161,33 @@ public class StoryService {
 
 
     public void addStartDate(Long storyId , String startDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Optional<Story> optionalStory = storyRepository.findById(storyId);
+        Optional<Story> optionalStory  = storyRepository.findById(storyId);
         if (optionalStory.isPresent()){
             Story story  = optionalStory.get();
-            try {
-                Date date = dateFormat.parse(startDate);
-                story.setStartDate(date);
-                storyRepository.save(story);
+            Date date = DateParser.parseDate(startDate);
+            story.setStartDate(date);
+            storyRepository.save(story);
 
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
 
     public void addEndDate(Long storyId , String endDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Optional<Story> optionalStory = storyRepository.findById(storyId);
         if (optionalStory.isPresent()){
             Story story  = optionalStory.get();
-            try {
-                Date date = dateFormat.parse(endDate);
-                story.setEndDate(date);
-                storyRepository.save(story);
+            Date date = DateParser.parseDate(endDate);
+            story.setEndDate(date);
+            storyRepository.save(story);
 
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+        }
+    }
+
+    public void addSeason(Long storyId , String season){
+        Optional<Story> optionalStory = storyRepository.findById(storyId);
+        if (optionalStory.isPresent()){
+            Story story  = optionalStory.get();
+            story.setSeason(season);
+            storyRepository.save(story);
         }
     }
 
