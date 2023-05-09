@@ -83,7 +83,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/findusers")
+    @PostMapping("/findusers")
     public List<User> findUsersWithUserName(@RequestBody SearchRequest searchRequest){
         return userService.findUsersByUsername(searchRequest);
     }

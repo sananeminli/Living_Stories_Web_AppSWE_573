@@ -11,6 +11,7 @@ import LandingPage from "./Components/Pages/LandingPage";
 import { LoadScript, LoadScriptNext } from "@react-google-maps/api";
 import ProfilePage from "./Components/Pages/ProfilePage";
 import StoryEdit from "./Components/Pages/StoryEdit";
+import Search from "./Components/Pages/Search";
 
 const api_key = import.meta.env.VITE_GOOGLE_API_KEY;
 
@@ -19,7 +20,7 @@ const App = () => {
     <Router>
       <LoadScriptNext googleMapsApiKey={api_key} libraries={["places"]}>
         <Routes>
-          
+          <Route path="/search" element={<Search />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/deneme" element={<Deneme />} />
           <Route path="/story" element={<StoryCreate />}></Route>
@@ -30,7 +31,6 @@ const App = () => {
           <Route path="/register" element={<RegisterUser />} />
           <Route path="/edituser" element={<EditUser />} />
           <Route path="/" element={<LandingPage />} />
-          
         </Routes>
       </LoadScriptNext>
     </Router>
