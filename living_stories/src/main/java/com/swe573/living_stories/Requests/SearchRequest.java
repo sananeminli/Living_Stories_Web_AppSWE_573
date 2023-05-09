@@ -6,12 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SearchRequest {
-    private String labels;
     private String header;
-    private String text;
-    private String username;
+    private String name;
     private String startDate;
     private String endDate;
-    private String when;
 
 }

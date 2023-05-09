@@ -2,6 +2,7 @@ package com.swe573.living_stories.Controllers;
 
 import com.swe573.living_stories.Models.User;
 import com.swe573.living_stories.Requests.EditUser;
+import com.swe573.living_stories.Requests.SearchRequest;
 import com.swe573.living_stories.Services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,12 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+
+    @GetMapping("/findusers")
+    public List<User> findUsersWithUserName(@RequestBody SearchRequest searchRequest){
+        return userService.findUsersByUsername(searchRequest);
     }
 }
 

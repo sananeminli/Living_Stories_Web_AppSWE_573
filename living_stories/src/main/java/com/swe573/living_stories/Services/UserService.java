@@ -4,6 +4,7 @@ import com.swe573.living_stories.Confrugation.JwtUtils;
 import com.swe573.living_stories.Models.User;
 import com.swe573.living_stories.Repositories.UserRepository;
 import com.swe573.living_stories.Requests.EditUser;
+import com.swe573.living_stories.Requests.SearchRequest;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -157,5 +158,10 @@ public class UserService {
 
         }
         return null;
+    }
+
+    public List<User> findUsersByUsername(SearchRequest searchRequest){
+        if (searchRequest.getName()==null) return null;
+        return  userRepository.findByNameContaining(searchRequest.getName());
     }
 }
