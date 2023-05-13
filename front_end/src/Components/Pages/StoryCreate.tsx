@@ -2,12 +2,7 @@ import React, { useState, useRef, ChangeEvent } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-quill/dist/quill.snow.css";
 
-import {
-  GoogleMap,
-  LoadScript,
-  Marker,
-  Autocomplete,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, Autocomplete } from "@react-google-maps/api";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
@@ -30,6 +25,8 @@ interface Location {
   name: string;
   lat: number;
   lng: number;
+  city?:string;
+  country?:string;
 }
 
 interface Story {
@@ -120,14 +117,36 @@ const Story: React.FC = () => {
   };
   const handleLocationSelect = () => {
     const place = autocompleteRef.current?.getPlace();
+
     if (place?.geometry?.location) {
+      const addressComponents = place?.address_components;
+
+      let country = "";
+      let city = "";
+
+      addressComponents?.forEach((component) => {
+        if (component.types.includes("country")) {
+          country = component.long_name;
+        }
+
+        if (
+          component.types.includes("administrative_area_level_1") ||
+          component.types.includes("locality")
+        ) {
+          city = component.long_name;
+        }
+      });
       const locationData: Location = {
         name: place.name || "",
         lat: Number(place.geometry?.location?.lat().toFixed(6)),
         lng: Number(place.geometry?.location?.lng().toFixed(6)),
+        city:city,
+        country:country
       };
+      
 
       setLocations([...locations, locationData]);
+      
       console.log(locationData);
       setMapCenter({ lat: locationData.lat, lng: locationData.lng });
     }
@@ -137,23 +156,62 @@ const Story: React.FC = () => {
     const { latLng } = e;
     const lat = latLng?.lat();
     const lng = latLng?.lng();
+    let country = "";
+    let city = "";
+  
     try {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${api_key}`
       );
       const { results } = response.data;
+      let stopExecution = false;
       if (results.length > 0) {
+        results.forEach((result:any) => {
+          const address_components = result.address_components;
+         
+          address_components?.forEach((component:google.maps.GeocoderAddressComponent) => {
+            if (component.types.includes("country")) {
+              country = component.long_name;
+            }
+        
+            if (
+              component.types.includes("administrative_area_level_1") ||
+              component.types.includes("locality") ||
+              component.types.includes("administrative_area_level_2")
+            ) {
+              city = component.long_name;
+            }
+          });
+        
+          if (city && country) {
+            stopExecution = true;
+            return; // Stop the iteration
+          }
+        });
+        
+        
+       
+
         const locationData: Location = {
-          name: results[0].formatted_address,
+          name: results[1].formatted_address,
           lat: Number(lat?.toFixed(6)),
           lng: Number(lng?.toFixed(6)),
+          city:city,
+          country:country
         };
+       console.log(locationData)
+       
+        
         setLocations([...locations, locationData]);
         setMapCenter({ lat: locationData.lat, lng: locationData.lng });
       }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const disabledDate = (currentDate: dayjs.Dayjs): boolean => {
+    return currentDate.isBefore(startDate);
   };
 
   const handleStartTimeChange = (time: Dayjs | null, timeString: string) => {
@@ -290,6 +348,7 @@ const Story: React.FC = () => {
                 value={selectedSeason}
                 onChange={(value) => setSelectedSeason(value)}
                 options={seasonOptions}
+                placeholder="Select a season."
               />
 
               <Radio.Group
@@ -355,6 +414,7 @@ const Story: React.FC = () => {
                 value={selectedSeason}
                 onChange={(value) => setSelectedSeason(value)}
                 options={seasonOptions}
+                placeholder="Select a season."
               />
               <Radio.Group
                 options={options}
@@ -372,6 +432,7 @@ const Story: React.FC = () => {
                   <DatePicker
                     placeholder="Select end date!"
                     picker="date"
+                    disabledDate={disabledDate}
                     format={exactDateFormat}
                     onChange={(date) => {
                       const start = dayjs(date, exactDateFormat);
@@ -386,6 +447,7 @@ const Story: React.FC = () => {
                 <DatePicker
                   placeholder="Select end date!"
                   format={monthFormat}
+                  disabledDate={disabledDate}
                   picker="month"
                   onChange={(date) => {
                     const start = dayjs(date, monthFormat);
@@ -400,6 +462,7 @@ const Story: React.FC = () => {
                   placeholder="Select end date!"
                   format={yearFormat}
                   picker="year"
+                  disabledDate={disabledDate}
                   onChange={(date) => {
                     const start = dayjs(date, yearFormat);
                     setEndDate(start);

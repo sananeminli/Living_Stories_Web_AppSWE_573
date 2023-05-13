@@ -27,6 +27,11 @@ public class Locations {
     @NonNull
     private String name;
 
+    private String city;
+    private String country;
+
+
+
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
