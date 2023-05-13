@@ -8,6 +8,8 @@ import lombok.Setter;
 public class SearchRequest {
     private String header;
     private String name;
+    private String city;
+    private String country;
     private String startDate;
     private String endDate;
 

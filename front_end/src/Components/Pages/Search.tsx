@@ -57,10 +57,11 @@ const UserSearch: React.FC = () => {
     <>
       <Container>
         <Row>
-          <Input
+          <Input.Search
             onChange={handleNameChange}
             placeholder="Write username"
-          ></Input>
+          
+          ></Input.Search>
         </Row>
         <Row>
           <Button onClick={handleSubmit}> Search</Button>

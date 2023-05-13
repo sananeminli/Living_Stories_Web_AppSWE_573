@@ -1,6 +1,7 @@
 package com.swe573.living_stories.Services;
 
 import com.swe573.living_stories.Confrugation.DateParser;
+import com.swe573.living_stories.Confrugation.SearchQueryProvider;
 import com.swe573.living_stories.DTO.MediaDTO;
 import com.swe573.living_stories.Models.*;
 import com.swe573.living_stories.Repositories.StoryRepository;
@@ -25,6 +26,11 @@ public class StoryService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SearchQueryProvider searchQueryProvider;
+
+
+
 
     @Autowired
     private DateParser dateParser;
@@ -32,6 +38,8 @@ public class StoryService {
     public Story createStory(Story story) {
         return storyRepository.save(story);
     }
+
+
 
     public Story updateStory(Long id, StoryRequest secondStory) {
         Story oldStory = storyRepository.findById(id)
@@ -192,83 +200,36 @@ public class StoryService {
     }
 
 
-    public List<Story> search(SearchRequest searchRequest) throws ParseException {
-        List<Story> stories = storyRepository.findAll();
-        List<Story> removedStories = new ArrayList<>();
-        List<Story> result= new ArrayList<>();
-        if (stories == null){
-            return null;
-        }
-        if (searchRequest.getHeader()!=null){
-            for (Story story:stories) {
-                if (!story.getHeader().contains(searchRequest.getHeader())){
-                    removedStories.add(story);
+
+    public List<Story> newsearch(SearchRequest searchRequest){
+
+
+        List<Story> stories = storyRepository.search(searchRequest.getHeader() , searchRequest.getName(), searchRequest.getCity(), searchRequest.getCountry());
+        List<Story> result  = new ArrayList<>();
+
+        if (searchRequest.getStartDate() != null&& searchRequest.getEndDate()==null) {
+            Date startDate = DateParser.parseDate(searchRequest.getStartDate());
+            for (Story story: stories) {
+                if (story.getStartDate()!=null && story.getStartDate().after(startDate)){
+                    result.add(story);
+                }
+            }
+        }if (searchRequest.getEndDate() != null) {
+            Date endDate = DateParser.parseDate(searchRequest.getEndDate());
+            Date startDate = DateParser.parseDate(searchRequest.getStartDate());
+            for (Story story: stories) {
+                if (story.getEndDate()!=null && story.getEndDate().before(endDate) &&story.getStartDate()!=null && story.getStartDate().after(startDate) ){
+                    result.add(story);
                 }
             }
         }
-
-        if (searchRequest.getText()!=null){
-            for (Story story:stories) {
-                if (!story.getText().contains(searchRequest.getText())){
-                    removedStories.add(story);
-                }
-            }
-        }
-        if (searchRequest.getUsername()!=null){
-            for (Story story:stories) {
-                if (!story.getUser().getName().equals(searchRequest.getUsername())){
-                    removedStories.add(story);
-                }
-            }
-        }
-        if (searchRequest.getUsername()!=null){
-            for (Story story:stories) {
-                if (!story.getUser().getName().equals(searchRequest.getUsername())){
-                    removedStories.add(story);
-                }
-            }
-        }
-
-        if (searchRequest.getLabels()!=null){
-            for (Story story:stories) {
-                if (!story.getLabels().contains(searchRequest.getLabels())){
-                    removedStories.add(story);
-                }
-            }
+        if (searchRequest.getStartDate()==null && searchRequest.getEndDate() == null){
+            return stories;
         }
 
 
-        if (searchRequest.getStartDate()!=null){
-            String startDate = searchRequest.getStartDate();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            Date searchDate = dateFormat.parse(startDate);
-            System.out.println(searchDate);
-            if (searchRequest.getWhen().equals("before")){
-                for (Story story:stories) {
-                    if (!story.getStartDate().before(searchDate)){
-                        removedStories.add(story);
 
-                    }
-                }
-            }
-            else if (searchRequest.getWhen().equals("after")){
-                for (Story story:stories) {
-                    if (story.getEndDate() ==null&& !story.getStartDate().after(searchDate)) {
-                        removedStories.add(story);
-                    }
-                }
-            }
-
-        }
-
-        for (Story story:stories) {
-            if (!removedStories.contains(story)){
-                result.add(story);
-            }
-        }
-
-
-        return result;
+        return  result;
     }
 
 }
