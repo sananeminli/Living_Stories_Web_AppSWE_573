@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, Row } from "antd";
+import '../CSS/background.css'
 
 interface LoginFormData {
   email: string;
@@ -48,8 +49,8 @@ const LoginPage: React.FC = () => {
   // ... (return code)
 
   return (
-    <div className="login-page" style={{textAlignLast:"center"}}>
-      <img src="./src/assets/images/plate.png"  style={{ width:"50%" , height:"auto" }}/>
+    <div className="container" style={{minWidth:"-webkit-fill-available"}}>
+      <img src="./src/assets/images/plate.png"  style={{ width:"28%" , height:"auto" }}/>
       <Row style={{ justifyContent: "center", marginTop: "50px" }}>
         <Form
           name="control-ref"
@@ -57,7 +58,7 @@ const LoginPage: React.FC = () => {
           style={{ maxWidth: 600 }}
         >
           <Form.Item name="Email" label="Email" rules={[{ required: true }]}>
-            <Input onChange={handleChange} />
+            <Input placeholder="write email" onChange={handleChange} />
           </Form.Item>
           <Form.Item
             name="Password"
@@ -65,17 +66,19 @@ const LoginPage: React.FC = () => {
             rules={[{ required: true }]}
           >
             <Input.Password
-              placeholder="input password"
+              placeholder="write password"
               onChange={handleChange}
             />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Submit
+              Login
             </Button>
           </Form.Item>
         </Form>
       </Row>
+      <Link to = "/register">If you don't have an account, go to the register!</Link>
+
     </div>
   );
 };

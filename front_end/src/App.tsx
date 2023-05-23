@@ -6,7 +6,6 @@ import StoryPage from "./Components/Pages/StoryPage";
 import LoginPage from "./Components/Pages/LoginPage";
 import RegisterUser from "./Components/Pages/RegisterUser";
 import EditUser from "./Components/Pages/EditUser";
-import Deneme from "./Components/Deneme";
 import LandingPage from "./Components/Pages/LandingPage";
 import { LoadScript, LoadScriptNext } from "@react-google-maps/api";
 import ProfilePage from "./Components/Pages/ProfilePage";
@@ -22,7 +21,6 @@ const App = () => {
         <Routes>
           <Route path="/search" element={<Search />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/deneme" element={<Deneme />} />
           <Route path="/story" element={<StoryCreate />}></Route>
           <Route path="/stories/:id" element={<StoryPage />} />
           <Route path="/stories/edit/:id" element={<StoryEdit />} />

@@ -51,7 +51,20 @@ const ProfilePage: React.FC = () => {
   const { name } = useParams<RouteParams>();
   const [user, setUser] = useState<User | null>(null);
   const [isAuthor, setIsAuthor] = useState<boolean>(false);
+  
   const navigate = useNavigate();
+  
+  const token = localStorage.getItem("jwt_Token");  useEffect(() => {
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("jwt_Token"))
+      ?.split("=")[1];
+
+    if (!cookieValue) {
+      navigate("/login");
+    }
+  }, []);
+
 
   useEffect(() => {
     const fetchUser = async () => {

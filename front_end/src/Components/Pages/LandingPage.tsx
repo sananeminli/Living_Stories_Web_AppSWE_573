@@ -2,24 +2,24 @@ import { Image, Button} from "antd";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {  Row, Container} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import '../CSS/background.css'
 
 const LandingPage: React.FC = () => {
   const token = localStorage.getItem("jwt_Token");
     const navigate = useNavigate()
     return(
-        <div style={{textAlignLast:"center"}}>
-        <Image src="./src/assets/images/logo_kare.png" preview = {false} style={{ width: '50%', height: 'auto' }}/>
-        <Container >
-            <Row xs = {3} justify="center">
-                <Button onClick={()=>{navigate("/register")}}>Register</Button>
-            </Row>
-            <Row>
+        <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center", minWidth: "-webkit-fill-available" }}>
+        <Image src="./src/assets/images/logo_kare.png" preview = {false} style={{ width: '40%', height: 'auto' }}/>
+        
+            
+                <Button style={{margin:"10px"}} onClick={()=>{navigate("/register")}}>Register!</Button>
+            
                 
-            </Row>
-            <Row xs = {3} style={{marginTop:"10px"}} >
-                <Button onClick={()=>{navigate("/login")}}>Log in!</Button>
-            </Row>
-        </Container>
+            
+           
+                <Button style={{margin:"10px"}} onClick={()=>{navigate("/login")}}>Log in!</Button>
+           
+        
         </div>
     )
 }
