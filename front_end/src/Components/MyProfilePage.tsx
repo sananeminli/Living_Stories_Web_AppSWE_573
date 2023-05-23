@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import NavBar from "./NavBar";
-import StoryComponent from "./Story";
+import NavBar from "./Components/NavBar";
+import StoryComponent from "./Components/StoryCard";
 
 interface Story {
   id: number;
@@ -16,6 +16,15 @@ interface Story {
   }[];
   startDate: string;
   endDate?: string;
+  comments:{
+    text: string;
+    user: {
+      id: number;
+      name: string;
+    };
+    likes: number[];
+  }[];
+  labels:string[]
 }
 
 interface User {
@@ -42,7 +51,7 @@ const ProfilePage: React.FC = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get<User>(
-          `http://localhost:8080/profile`,
+          `${import.meta.env.VITE_BACKEND_URL}/profile`,
           { withCredentials: true }
         );
         setUser(response.data);

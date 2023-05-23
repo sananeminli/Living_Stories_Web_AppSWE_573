@@ -46,8 +46,8 @@ const HomePage: React.FC = () => {
     const fetchStories = async () => {
       const url =
       selectedOption === "all"
-        ? `http://localhost:8080/stories`
-        : `http://localhost:8080/stories/following`;
+        ? `${import.meta.env.VITE_BACKEND_URL}/stories`
+        : `${import.meta.env.VITE_BACKEND_URL}/stories/following`;
 
       const response = await axios.get<Story[]>(url, {
         withCredentials: true
@@ -75,13 +75,14 @@ const HomePage: React.FC = () => {
                 buttonStyle="solid"
                 
               /></Row>
-      <ul style={{listStyle:"none" , marginRight : "10px"}}>
+      <ul style={{listStyle:"none" , marginRight:"10px"}}>
         {stories.reverse().map((story: Story) => (
           <li key={story.id}>
             <Story story={story} />
           </li>
         ))}
       </ul>
+      {stories.length===0 && <h2 style={{textAlignLast:"center"}}>Nothing to show!</h2>}
     </div>
   );
 };

@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import StoryComponent from "../Components/StoryCard";
 import NavBar from "../Components/NavBar";
-import { Button } from "react-bootstrap";
+
 import { useNavigate } from "react-router-dom";
-import { Avatar, Card, Col, Row } from "antd";
+import { Avatar, Card, Col, Row ,Button} from "antd";
 import FollowButton from "../Components/Follow";
 
 interface Story {
@@ -57,11 +57,11 @@ const ProfilePage: React.FC = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get<User>(
-          `http://localhost:8080/users/${name}`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/${name}`,
           { withCredentials: true }
         );
         const response_user = await axios.get<User>(
-          `http://localhost:8080/users/profile`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/profile`,
           { withCredentials: true }
         );
         setUser(response.data);
@@ -93,7 +93,7 @@ const ProfilePage: React.FC = () => {
             )}
           </Col>
           <Col>
-            <p>{user.biography}</p>
+            <p style={{marginLeft:"50px"}}>{user.biography}</p>
           </Col>
         </Row>
         <Row>
@@ -105,7 +105,7 @@ const ProfilePage: React.FC = () => {
               navigate("/edituser");
             }}
           >
-            Edit
+            Edit Profile
           </Button>
         ) : (
           <FollowButton followers={user.followers} id={user.id} />

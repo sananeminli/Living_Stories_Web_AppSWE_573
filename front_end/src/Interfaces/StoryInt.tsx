@@ -5,6 +5,8 @@ export interface StoryInt {
   user: {
     id: number;
     name: string;
+    photo?: string;
+    
   };
   labels:string[]
 
@@ -28,4 +30,7 @@ export interface StoryInt {
   }[]
   startDate: string;
   endDate: string;
+  startSeason?: string,
+  endSeason?:string ,
+
 }

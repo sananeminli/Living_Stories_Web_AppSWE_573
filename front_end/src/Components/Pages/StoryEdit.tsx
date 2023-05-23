@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import { RadioGroup } from "../Components/DateRadio";
 import DatePicker from "antd/es/date-picker";
 
-const urlEndpoint = "http://localhost:8080/stories";
+const urlEndpoint = `${import.meta.env.VITE_BACKEND_URL}/stories`;
 const api_key = import.meta.env.VITE_GOOGLE_API_KEY;
 const containerStyle = {
   width: "100%",
@@ -46,7 +46,7 @@ const Story: React.FC = () => {
   useEffect(() => {
     // Fetch story data from API using the ID parameter
     const fetchStory = async () => {
-      const response = await axios.get(`http://localhost:8080/stories/${id}`, {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/stories/${id}`, {
         withCredentials: true,
       });
       setLabels(response.data.labels);
@@ -85,7 +85,7 @@ const Story: React.FC = () => {
       try {
         console.log(editRequest);
         const response = await axios.post(
-          `http://localhost:8080/stories/edit/${id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/stories/edit/${id}`,
           editRequest,
           {
             withCredentials: true,

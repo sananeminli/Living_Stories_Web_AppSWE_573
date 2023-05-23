@@ -43,27 +43,7 @@ public class CommentService {
         return false;
 
     }
-    /*
-    * public void likeComment(Long commentId, Long userId) throws Exception {
-        Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        if (optionalComment.isPresent()) {
-            Comment comment = optionalComment.get();
-            Optional<User> optionalUser = userRepository.findById(userId);
-            if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
-                Like like = new Like();
-                like.setUser(user);
-                like.setComment(comment);
-                comment.getLikes().add(like);
-                commentRepository.save(comment);
-            } else {
-                throw new Exception("User not found");
-            }
-        } else {
-            throw new Exception("Comment not found");
-        }
-    }
-*/
+
 
 
     public String likeComment(Long commentId , Long userId){

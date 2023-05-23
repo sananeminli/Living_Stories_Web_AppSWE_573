@@ -26,11 +26,11 @@ const LoginPage: React.FC = () => {
       password: event.Password,
     };
 
-    debugger;
+  
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/login",
+        `${import.meta.env.VITE_BACKEND_URL}/login`,
         loginData,
         { withCredentials: true }
       );
@@ -48,7 +48,8 @@ const LoginPage: React.FC = () => {
   // ... (return code)
 
   return (
-    <div className="login-page">
+    <div className="login-page" style={{textAlignLast:"center"}}>
+      <img src="./src/assets/images/plate.png"  style={{ width:"50%" , height:"auto" }}/>
       <Row style={{ justifyContent: "center", marginTop: "50px" }}>
         <Form
           name="control-ref"

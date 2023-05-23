@@ -19,7 +19,7 @@ const NavBar: React.FC = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get<User>(
-          `http://localhost:8080/users/profile`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/profile`,
           { withCredentials: true }
         );
         setUser(response.data);
@@ -33,7 +33,7 @@ const NavBar: React.FC = () => {
 
   const navigate = useNavigate();
   const logout = async () => {
-    const response = await axios.get("http://localhost:8080/logout", {
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/logout`, {
       withCredentials: true,
     });
     localStorage.clear();

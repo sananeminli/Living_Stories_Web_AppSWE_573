@@ -39,7 +39,6 @@ public class CommentController {
     public ResponseEntity<Object> addCommentToStory(@RequestBody CommentRequest commentRequest, HttpServletRequest request) {
         Long userId = userService.isUserLoggedIn(request);
         Story optionalStory = storyService.getStoryById(commentRequest.getStoryId());
-
         Optional<User> optionalUser = userService.getUserById(userId);
 
 

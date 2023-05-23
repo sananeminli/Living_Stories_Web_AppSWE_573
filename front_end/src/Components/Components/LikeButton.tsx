@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Button } from "react-bootstrap";
+
 import { StoryInt } from "../../Interfaces/StoryInt";
 import React from "react";
+import { LikeFilled, LikeOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 
 interface User {
   id: number;
@@ -22,16 +24,17 @@ function LikeButton({ type, id }: Props) {
   const [liked, setLiked] = useState(false);
   const [user, setUser] = useState<User>();
   const [story, setStory] = useState<StoryInt>();
+  const icon = liked ? <LikeFilled /> : <LikeOutlined/>;
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get<User>(
-          `http://localhost:8080/users/profile`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/profile`,
           { withCredentials: true }
         );
         const response_story = await axios.get<StoryInt>(
-          `http://localhost:8080/stories/${id}`,
+          `${import.meta.env.VITE_BACKEND_URL}/stories/${id}`,
           { withCredentials: true }
         );
         setStory(response_story.data);
@@ -49,7 +52,7 @@ function LikeButton({ type, id }: Props) {
     console.log(story.comments.find(c => c.id === id))
     if (type === "story" && story?.likes?.length !== 0 && story?.likes.includes(user?.id || 0)) {
       setLiked(true);
-    } else if (type === "comment" && story?.comments?.find(c => c.id === id)?.likes?.includes(user?.id || 0)) {
+    }  if (type === "comment" && story?.comments?.find(c => c.id === id)?.likes?.includes(user?.id || 0)) {
       console.log(story.comments.find(c => c.id === id))
       setLiked(true);
     }
@@ -58,8 +61,8 @@ function LikeButton({ type, id }: Props) {
   const handleClick = () => {
     const url =
       type === "comment"
-        ? `http://localhost:8080/stories/comments/like/${id}`
-        : `http://localhost:8080/stories/like/${id}`;
+        ? `${import.meta.env.VITE_BACKEND_URL}/stories/comments/like/${id}`
+        : `${import.meta.env.VITE_BACKEND_URL}/stories/like/${id}`;
 
     axios
       .post(url, null, { withCredentials: true })
@@ -75,7 +78,7 @@ function LikeButton({ type, id }: Props) {
   };
 
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={handleClick} icon = {icon}>
       {liked ? "Liked!" : "Like"}
     </Button>
   );

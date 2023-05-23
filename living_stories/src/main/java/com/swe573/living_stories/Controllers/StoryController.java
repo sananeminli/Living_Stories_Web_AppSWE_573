@@ -60,8 +60,11 @@ public class StoryController {
         if (storyRequest.getEndDate() != null){
             storyService.addEndDate(savedStory.getId(),storyRequest.getEndDate());
         }
-        if (storyRequest.getSeason() != null){
-            storyService.addSeason(savedStory.getId(),storyRequest.getSeason());
+        if (storyRequest.getStartSeason() != null){
+            storyService.addSeason(savedStory.getId(),storyRequest.getStartSeason(),0);
+        }
+        if (storyRequest.getEndSeason() != null){
+            storyService.addSeason(savedStory.getId(),storyRequest.getEndSeason(),1);
         }
 
         return ResponseEntity.ok(savedStory);
@@ -127,11 +130,7 @@ public class StoryController {
     @PostMapping("/search")
     public List<Story> search(HttpServletRequest request , @RequestBody SearchRequest searchRequest){
         userService.isUserLoggedIn(request);
-        try {
-            return storyService.search(searchRequest);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        return storyService.newsearch(searchRequest);
     }
 
 

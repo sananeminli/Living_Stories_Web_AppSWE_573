@@ -1,6 +1,7 @@
 import { Avatar, Badge, Card, Col, Row } from "antd";
 import React from "react";
 import { UserOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 interface Story {
   id: number;
@@ -18,6 +19,9 @@ interface Story {
     lat: number;
     lng: number;
     name: string;
+    country?:string;
+    city?:string
+
   }[];
   comments: {
     text: string;
@@ -45,6 +49,7 @@ const StoryComponent: React.FC<StoryProps> = ({ story }) => {
       style={{ textDecoration: "none", cursor: "pointer" }}
     >
       <Badge.Ribbon
+      placement="end"
         text={
           <div>
             {story.labels.map((label, index) => (
@@ -57,12 +62,6 @@ const StoryComponent: React.FC<StoryProps> = ({ story }) => {
         <Card
           title={story.header}
           hoverable={true}
-          extra={
-            <p>
-              {" "}
-              {story.startDate} {story.endDate}
-            </p>
-          }
           style={{ margin: "5px" }}
         >
           <Row>
@@ -84,19 +83,19 @@ const StoryComponent: React.FC<StoryProps> = ({ story }) => {
               </Col>
             )}
             <Col xs={6}>
-              <p>Locations</p>{" "}
+              <p>Locations:</p>{" "}
               {story.locations?.map((location) => (
-                <p key={location.id}>{location.name}</p>
+                <p key={location.id}>{location.city}/{location.country}</p>
               ))}
             </Col>
-            <Col>
-              <p>Likes: {story.likes.length}</p>
-              <p>Comments:{story.comments.length} </p>
+            <Col >
+              <p style={{marginLeft:"10px"}}>Likes: {story.likes.length}</p>
+              <p style={{marginLeft:"10px"}}>Comments:{story.comments.length} </p>
             </Col>
 
-            <Col>
-              <p>{story.startDate}</p>
-              <p>{story.endDate}</p>
+            <Col style={{marginLeft:"10px"}}>
+              <p >   {story.startDate} </p>
+              <p>   {story.endDate}</p>
             </Col>
           </Row>
         </Card>

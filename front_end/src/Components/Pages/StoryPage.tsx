@@ -1,18 +1,22 @@
 import { FC, useEffect, useMemo, useState } from "react";
-import { useParams, Params } from "react-router-dom";
+import { useParams, Params, Link } from "react-router-dom";
 import { StoryInt } from "../../Interfaces/StoryInt";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-quill/dist/quill.snow.css";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import {  Col, Container, Row } from "react-bootstrap";
 import NavBar from "../Components/NavBar";
 import { GoogleMap, Marker } from "@react-google-maps/api";
-import { Input, Tag } from "antd";
+import { Avatar, Input, Tag, Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useNavigate } from "react-router-dom";
 import LikeButton from "../Components/LikeButton";
 import FollowButton from "../Components/Follow";
+import UserOutlined from "@ant-design/icons/lib/icons/UserOutlined";
+import EditFilled from "@ant-design/icons/lib/icons/EditFilled";
+import MessageFilled from "@ant-design/icons/lib/icons/MessageFilled";
+import CommentComponent from "../Components/CommentCard";
 
 interface StoryPageProps {
   story: StoryInt;
@@ -43,40 +47,21 @@ interface User {
   id: number;
   name: string;
   photo?: ArrayBuffer | null;
-  
 }
 
 const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
-  const colors: string[] = [
-    'pink',
-    'red',
-    'yellow',
-    'orange',
-    'cyan',
-    'green',
-    'blue',
-    'purple',
-    'geekblue',
-    'magenta',
-    'volcano',
-    'gold',
-    'lime',
-  ];
   
-  // Get a random color from the array
-  const randomColor = colors[Math.floor(Math.random() * colors.length)];
   const [mapKey, setMapKey] = useState(0);
-  const [isAuthor, setIsAuthor] = useState<boolean>(false)
-  const navigate  = useNavigate()
-  
+  const [isAuthor, setIsAuthor] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
       const response_user = await axios.get<User>(
-        `http://localhost:8080/users/profile`,
+        `${import.meta.env.VITE_BACKEND_URL}/users/profile`,
         { withCredentials: true }
       );
-  
+
       if (response_user.data.name === story.user.name) {
         setIsAuthor(true);
       }
@@ -84,7 +69,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
     }
     fetchData();
   }, [story]);
-  
+
   const slocations = story.locations;
   const StoryMarkers: React.FC<LocationProps> = useMemo(
     () =>
@@ -139,7 +124,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
   const sendComment = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/stories/comments",
+        `${import.meta.env.VITE_BACKEND_URL}/stories/comments`,
         RequestData,
         {
           withCredentials: true,
@@ -156,7 +141,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
   return (
     <>
       <NavBar />
-   
+
       <Container>
         <Row>
           <Col>
@@ -170,6 +155,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
               {story.header}
             </h1>
           </Col>
+          
 
           <Col>
             {story.labels && (
@@ -179,7 +165,10 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
                     key={index}
                     style={{ display: "inline-block", marginLeft: "10px" }}
                   >
-                    <Tag color={randomColor}  style={{ margin:"10px" , inlineSize:"x-large" }}>
+                    <Tag
+                      color={"lime"}
+                      style={{ margin: "10px", inlineSize: "x-large" }}
+                    >
                       {label}
                     </Tag>
                   </div>
@@ -187,9 +176,56 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
               </div>
             )}
           </Col>
+          <Col>
+            <Row>
+              <p>Start Date: {story.startDate}   {story.startSeason&& <p> Season: {story.startSeason}</p>}</p>
+             
+            </Row>
+            {story.endDate !== null && (
+              <Row>
+                <p>End Date:{story.endDate}  {story.endSeason&& <p> Season: {story.endSeason}</p>}</p>
+              </Row>
+            )}
+          </Col>
+          
+        
+
         </Row>
         <Row>
-          <p>By: {story.user.name}</p>
+        </Row>
+        {story.user?.name && (
+              <Col xs={3}>
+                {story.user?.photo ? (
+                  <Avatar
+                    size={60}
+                    src={<img src={story.user.photo} alt="avatar" />}
+                  />
+                ) : (
+                  <Avatar
+                    style={{ backgroundColor: "#87d068" }}
+                    size={60}
+                    icon={<UserOutlined />}
+                  ></Avatar>
+                )}{" "}
+                <Link to={`/user/${story.user.name}`}>
+            <p>By: {story.user.name}</p>
+          </Link>
+              </Col>
+            )}
+        <Row>
+          
+          
+          <Col>
+          {isAuthor && (
+        <Button type="primary" icon ={<EditFilled />}
+          onClick={() => {
+            navigate(`/stories/edit/${story.id}`);
+          }}
+        >
+          Edit Story
+        </Button>
+      )}
+          </Col>
         </Row>
         <Row>
           <Col xs={8}>
@@ -212,7 +248,18 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
             </Col>
           )}
         </Row>
-        <p>Likes: {story.likes.length}</p>
+        <Row>
+          <Col xs= {1}>
+          <LikeButton type="story" id={story.id} />
+          </Col>
+          <Col>
+          <p>Likes: {story.likes.length}</p>
+          </Col>
+        
+        
+        </Row>
+        
+        
       </Container>
 
       <Container>
@@ -225,25 +272,22 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
             ></TextArea>
           </Col>
           <Col xs={2}>
-            <Button onClick={sendComment}> Add Comment</Button>
+            <Button type="primary" icon = {<MessageFilled />} onClick={sendComment}> Add Comment</Button>
           </Col>
         </Row>
       </Container>
-      {isAuthor&& <Button onClick={()=>{navigate(`/stories/edit/${story.id}`)}}>Edit Story</Button>}
+      
       <Container>
         <Row>
           {story.comments &&
             story.comments.map((comment, index) => (
               <div key={index}>
-                <p>{comment.text}</p>
-                <p>By: {comment.user.name}</p>
-                <p>Likes: {comment.likes.length}</p>
-                <LikeButton type="comment" id={comment.id}/>
+                <CommentComponent comment={comment}/>
               </div>
             ))}
         </Row>
       </Container>
-      <LikeButton type="story" id={story.id}/>
+      
     </>
   );
 };
@@ -255,7 +299,7 @@ const StoryPageContainer: React.FC = () => {
   useEffect(() => {
     // Fetch story data from API using the ID parameter
     const fetchStory = async () => {
-      const response = await axios.get(`http://localhost:8080/stories/${id}`, {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/stories/${id}`, {
         withCredentials: true,
       });
       setStory(response.data);

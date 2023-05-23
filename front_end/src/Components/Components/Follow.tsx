@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { StoryInt } from "../../Interfaces/StoryInt";
-import { Button } from "react-bootstrap";
+import { Button } from "antd";
+import PlusCircleFilled from "@ant-design/icons/lib/icons/PlusCircleFilled";
+import MinusCircleFilled from "@ant-design/icons/lib/icons/MinusCircleFilled";
 
 interface User {
   id: number;
@@ -15,12 +17,13 @@ type Props = {
 function FollowButton({ followers, id }: Props) {
   const [followed, setFollowed] = useState(false);
   const [user, setUser] = useState<User>();
+  const icon = followed ? <MinusCircleFilled /> : <PlusCircleFilled />;
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get<User>(
-          `http://localhost:8080/users/profile`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/profile`,
           { withCredentials: true }
         );
         const user = response.data;
@@ -43,7 +46,7 @@ function FollowButton({ followers, id }: Props) {
     
 
     axios
-      .post(`http://localhost:8080/users/follow/${id}`, null, { withCredentials: true })
+      .post(`${import.meta.env.VITE_BACKEND_URL}/users/follow/${id}`, null, { withCredentials: true })
       .then((response) => {
         if (response.status === 200) {
           setFollowed(true);
@@ -59,7 +62,7 @@ function FollowButton({ followers, id }: Props) {
 
   return (
     <>
-      <Button onClick={handleClick}>{followed ? "Unfollow!" : "Follow"}</Button>
+      <Button onClick={handleClick}icon={icon}  type="primary">{followed ? "Unfollow!" : "Follow"}</Button>
     </>
   );
 }

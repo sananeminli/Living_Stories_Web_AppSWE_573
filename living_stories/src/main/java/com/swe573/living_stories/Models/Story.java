@@ -42,7 +42,10 @@ import java.util.List;
         @Column
         private ArrayList<Long> likes = new ArrayList<>();
         @Column
-        private String season;
+        private String startSeason;
+
+        @Column
+        private String endSeason;
 
 
         @JsonIgnore
@@ -56,6 +59,7 @@ import java.util.List;
         @NotBlank
         @Column(columnDefinition = "TEXT")
         private String richText;
+
 
 
 

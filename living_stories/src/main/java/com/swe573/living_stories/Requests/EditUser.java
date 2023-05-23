@@ -9,6 +9,7 @@ public class EditUser {
 
     private String photo;
     private String biography;
+    private String password;
 
 
 }

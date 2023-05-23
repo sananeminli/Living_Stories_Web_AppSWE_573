@@ -24,7 +24,7 @@ public class Comment {
     @NotBlank
     private String text;
 
-    @JsonIncludeProperties(value = {"id" , "name"})
+    @JsonIncludeProperties(value = {"id" , "name", "photo"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

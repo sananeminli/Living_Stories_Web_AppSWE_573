@@ -102,6 +102,10 @@ public class UserService {
             existingUser.setBiography(updatedUser.getBiography());
         }
 
+        if(updatedUser.getPassword() != null){
+            existingUser.setPassword(updatedUser.getPassword());
+        }
+
         return userRepository.save(existingUser);
     }
 
@@ -162,6 +166,6 @@ public class UserService {
 
     public List<User> findUsersByUsername(SearchRequest searchRequest){
         if (searchRequest.getName()==null) return null;
-        return  userRepository.findByNameContaining(searchRequest.getName());
+        return  userRepository.findByNameContainingIgnoreCase(searchRequest.getName());
     }
 }

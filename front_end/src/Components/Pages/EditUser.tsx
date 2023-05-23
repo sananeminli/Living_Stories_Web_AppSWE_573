@@ -32,7 +32,7 @@ const EditUser: React.FC = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get<User>(
-          `http://localhost:8080/users/profile`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/profile`,
           { withCredentials: true }
         );
         setUser(response.data);
@@ -58,7 +58,7 @@ const EditUser: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/users/update",
+        `${import.meta.env.VITE_BACKEND_URL}/users/update`,
         editUserData,
         { withCredentials: true }
       );
@@ -72,18 +72,7 @@ const EditUser: React.FC = () => {
   const handleBioChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setBio(event.target.value);
   };
-  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const base64String = reader.result?.toString().split(",")[1];
-        console.log(base64String); // Base64-encoded string
-        setPhoto(base64String);
-      };
-    }
-  };
+  
   const handleImageUpload = (info: UploadChangeParam<UploadFile<any>>) => {
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -122,6 +111,7 @@ const EditUser: React.FC = () => {
           <Col >
             <TextArea onChange={handleBioChange} value={bio} rows={8} />
           </Col>
+         
         </Row>
         <Row>
           <Button onClick={handleSubmit}>Save</Button>
