@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import NavBar from "./Components/NavBar";
-import StoryComponent from "./Components/StoryCard";
+import NavBar from "../Components/NavBar";
+import StoryComponent from "../Components/StoryCard";
 
 interface Story {
   id: number;
