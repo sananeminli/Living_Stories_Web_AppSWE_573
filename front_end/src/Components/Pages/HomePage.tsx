@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
 import Story from '../Components/StoryCard';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
@@ -40,6 +40,17 @@ interface Story {
 const HomePage: React.FC = () => {
   const [stories, setStories] = useState<Story[]>([]);
   const [selectedOption, setSelectedOption] = useState<string>("all");
+  const nav = useNavigate()
+  const token = localStorage.getItem("jwt_Token");  useEffect(() => {
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("jwt_Token"))
+      ?.split("=")[1];
+
+    if (!cookieValue) {
+      nav("/login");
+    }
+  }, []);
 
 
   useEffect(() => {

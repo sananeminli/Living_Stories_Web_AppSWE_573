@@ -72,6 +72,16 @@ const Story: React.FC = () => {
   const handleEditorChange = (content: string) => {
     setEditorContent(content);
   };
+  useEffect(() => {
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("jwt_Token"))
+      ?.split("=")[1];
+
+    if (!cookieValue) {
+      navigate("/login");
+    }
+  }, []);
   
 
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, Row } from "antd";
 
 interface LoginFormData {
@@ -49,7 +49,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="login-page" style={{textAlignLast:"center"}}>
-      <img src="./src/assets/images/plate.png"  style={{ width:"50%" , height:"auto" }}/>
+      <img src="./src/assets/images/plate.png"  style={{ width:"20%" , height:"auto" }}/>
       <Row style={{ justifyContent: "center", marginTop: "50px" }}>
         <Form
           name="control-ref"
@@ -76,6 +76,8 @@ const LoginPage: React.FC = () => {
           </Form.Item>
         </Form>
       </Row>
+      <Link to = "/register">If you don't have an account, go to the register!</Link>
+
     </div>
   );
 };

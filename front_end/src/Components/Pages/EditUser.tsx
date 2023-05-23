@@ -27,6 +27,18 @@ const EditUser: React.FC = () => {
   const [bio, setBio] = useState<string | undefined>(undefined);
   const [photo, setPhoto] = useState<string | undefined>(undefined);
   const navigate = useNavigate()
+  
+  const token = localStorage.getItem("jwt_Token");  useEffect(() => {
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("jwt_Token"))
+      ?.split("=")[1];
+
+    if (!cookieValue) {
+      navigate("/login");
+    }
+  }, []);
+
 
   useEffect(() => {
     const fetchUser = async () => {

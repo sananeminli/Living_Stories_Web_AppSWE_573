@@ -12,10 +12,10 @@ import {
 } from "antd";
 
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Container, Nav, Row, Col } from "react-bootstrap";
 import NavBar from "../Components/NavBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Autocomplete, GoogleMap, Marker } from "@react-google-maps/api";
 import { StoryInt } from "../../Interfaces/StoryInt";
 import Story from "../Components/StoryCard";
@@ -236,6 +236,20 @@ const StroySearch: React.FC = () => {
       console.log(error);
     }
   };
+  const navigate = useNavigate()
+  
+  
+   useEffect(() => {
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("jwt_Token"))
+      ?.split("=")[1];
+
+    if (!cookieValue) {
+      navigate("/login");
+    }
+  }, []);
+
 
   const handleSubmit = async (event: any) => {
     form.submit();

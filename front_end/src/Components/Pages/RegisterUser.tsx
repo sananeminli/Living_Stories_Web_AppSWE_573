@@ -57,9 +57,9 @@ const RegisterUser: React.FC = () => {
   return (
     
     
-      <div className="login-page">
-        <img src="./src/assets/images/logo_kare.png"  style={{ width:"50%" , height:"auto" }}/>
-        
+      <div className="login-page" style={{textAlignLast:"center"}}>
+        <img src="./src/assets/images/logo_kare.png"  style={{ width:"30%"  , height:"auto" }}/>
+        <h1>Welcome to Living Stories!</h1>
         <Row style={{ justifyContent: "center", marginTop: "50px" }}>
           <Form
             name="control-ref"
@@ -67,10 +67,10 @@ const RegisterUser: React.FC = () => {
             style={{ maxWidth: 600 }}
           >
             <Form.Item name="Email" label="Email" rules={[{ required: true }]}>
-              <Input onChange={handleEmailChange} />
+              <Input placeholder="Provide your email!" onChange={handleEmailChange} />
             </Form.Item>
             <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-              <Input onChange={handleNameChange} />
+              <Input  placeholder="Provide your name!" onChange={handleNameChange} />
             </Form.Item>
 
             <Form.Item
@@ -111,6 +111,7 @@ const RegisterUser: React.FC = () => {
             </Form.Item>
           </Form>
         </Row>
+        <Link to="/login">If you have an account, go to the login!</Link>
       </div>
     );
   };

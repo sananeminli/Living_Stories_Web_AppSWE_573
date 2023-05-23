@@ -69,6 +69,17 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
     }
     fetchData();
   }, [story]);
+  
+  useEffect(() => {
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("jwt_Token"))
+      ?.split("=")[1];
+
+    if (!cookieValue) {
+      navigate("/login");
+    }
+  }, []);
 
   const slocations = story.locations;
   const StoryMarkers: React.FC<LocationProps> = useMemo(

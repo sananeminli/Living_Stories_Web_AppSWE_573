@@ -1,4 +1,4 @@
-import React, { useState, useRef, ChangeEvent } from "react";
+import React, { useState, useRef, ChangeEvent, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-quill/dist/quill.snow.css";
 
@@ -57,6 +57,10 @@ const yearFormat = "YYYY";
 const monthFormat = "MM/YYYY";
 
 const Story: React.FC = () => {
+  
+  
+ 
+
   const [mapCenter, setMapCenter] = useState<{ lat: number; lng: number }>({
     lat: 41.0856396,
     lng: 29.0424937,
@@ -102,6 +106,7 @@ const Story: React.FC = () => {
         ).format("DD/MM/YYYY HH:mm:ss")
       : endtDate?.format(dateFormats[selectedOptionEnd])
   }`;
+  
 
  
   const onRadioChange = (e: RadioChangeEvent) => {
@@ -305,6 +310,17 @@ const Story: React.FC = () => {
     "link",
     "image",
   ];
+
+  useEffect(() => {
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("jwt_Token"))
+      ?.split("=")[1];
+
+    if (!cookieValue) {
+      navigate("/login");
+    }
+  }, []);
   return (
     <>
       <NavBar />
