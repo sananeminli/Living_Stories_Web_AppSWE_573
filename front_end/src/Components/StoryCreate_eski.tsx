@@ -99,7 +99,7 @@ const Story: React.FC = () => {
     async function postData() {
       try {
         console.log(storyRequest)
-        const response = await axios.post('http://localhost:8080/stories', storyRequest, {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/stories`, storyRequest, {
           withCredentials: true
         });
         
