@@ -57,7 +57,7 @@ public class CommentService {
                 likes.add(userId);
                 comment.setLikes(likes);
                 commentRepository.save(comment);
-                return "User liked story!";
+                return "User liked comment!";
             } else if (likes.contains(userId)) {
                 likes.remove(userId);
                 comment.setLikes(likes);
@@ -69,7 +69,7 @@ public class CommentService {
 
         }
 
-        return "User or comment can not be found!";
+        return "User or comment cannot be found!";
 
     }
 

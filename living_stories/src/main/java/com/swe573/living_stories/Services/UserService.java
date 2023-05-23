@@ -68,27 +68,8 @@ public class UserService {
 
     }
 
-    public User getUserByEmail(String email ){
-        Optional<User> optionalUser = userRepository.findUserByEmail(email);
-        if (optionalUser.isPresent()) {
-           return optionalUser.get();
 
-        }
-        return null;
 
-    }
-    public boolean checkCredentials(String email , String password){
-        Optional<User> optionalUser = userRepository.findUserByEmail(email);
-
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-
-            if (user.getPassword().equals(password)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     public User updateUser(EditUser updatedUser , Long id) {
         User existingUser = userRepository.findById(id)
@@ -127,8 +108,6 @@ public class UserService {
             userRepository.save(follower);
             userRepository.save(followed);
             return "User "+ follower.getName()+"   unfollowed " + followed.getName();
-
-
         }
         else{
         followed.getFollowers().add(follower);
