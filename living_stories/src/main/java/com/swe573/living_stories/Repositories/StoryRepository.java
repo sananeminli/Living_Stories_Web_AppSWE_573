@@ -18,24 +18,38 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
 
 
     List<Story> findByUserIdIn(List<Long> followingIds);
-
     @Query("SELECT s FROM Story s" +
             " WHERE" +
-            " (:header IS NULL OR LOWER( s.header) LIKE CONCAT('%', :header, '%'))" +
+            " (:header IS NULL OR LOWER(s.header) LIKE CONCAT('%', :header, '%'))" +
             " AND (:userName IS NULL OR LOWER(s.user.name) LIKE CONCAT('%', LOWER(:userName), '%'))" +
+
+            " AND (:text IS NULL OR LOWER(s.richText) LIKE CONCAT('%', LOWER(:text), '%'))" +
             " AND (:city IS NULL OR EXISTS (SELECT l FROM s.locations l WHERE LOWER(l.city) LIKE CONCAT('%', LOWER(:city), '%')))" +
-            " AND (:country IS NULL OR EXISTS (SELECT l FROM s.locations l WHERE LOWER(l.country) LIKE CONCAT('%', LOWER(:country), '%')))"
-    )
-
-
+            " AND (:country IS NULL OR EXISTS (SELECT l FROM s.locations l WHERE LOWER(l.country) LIKE CONCAT('%', LOWER(:country), '%')))" +
+            " AND ((:latRangeMin IS NULL AND :latRangeMax IS NULL) OR EXISTS (SELECT l FROM s.locations l WHERE " +
+            "   (l.lat BETWEEN :latRangeMin AND :latRangeMax) OR (l.lat IS NULL)))" +
+            " AND ((:lngRangeMin IS NULL AND :lngRangeMax IS NULL) OR EXISTS (SELECT l FROM s.locations l WHERE " +
+            "   (l.lng BETWEEN :lngRangeMin AND :lngRangeMax) OR (l.lng IS NULL)))" +
+            " AND (:startSeason IS NULL OR s.startSeason = :startSeason)" +
+            " AND (:endSeason IS NULL OR s.endSeason = :endSeason)")
     List<Story> search(
             @Param("header") String header,
             @Param("userName") String userName,
             @Param("city") String city,
-            @Param("country") String country
-
+            @Param("country") String country,
+            @Param("text") String text,
+            @Param("latRangeMin") Double latRangeMin,
+            @Param("latRangeMax") Double latRangeMax,
+            @Param("lngRangeMin") Double lngRangeMin,
+            @Param("lngRangeMax") Double lngRangeMax,
+            @Param("startSeason") String startSeason,
+            @Param("endSeason") String endSeason
 
     );
+
+
+
+
 
 
 
