@@ -1,6 +1,0 @@
-.custom-input {
-    width: 500px; /* adjust the width as needed */
-    height: 200px; /* adjust the height as needed */
-    resize: both; /* allow both horizontal and vertical resizing */
-    overflow: auto; /* add scrollbars if the content overflows */
-}

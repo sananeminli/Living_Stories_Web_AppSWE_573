@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {useNavigate} from 'react-router-dom';
-
+import '../CSS/background.css'
 
 interface RegisterFormData {
   email: string;
@@ -57,7 +57,7 @@ const RegisterUser: React.FC = () => {
   return (
     
     
-      <div className="login-page" style={{textAlignLast:"center"}}>
+      <div className="container" style={{textAlignLast:"center" , minWidth:"-webkit-fill-available"}}>
         <img src="./src/assets/images/logo_kare.png"  style={{ width:"30%"  , height:"auto" }}/>
         <h1>Welcome to Living Stories!</h1>
         <Row style={{ justifyContent: "center", marginTop: "50px" }}>

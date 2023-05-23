@@ -580,7 +580,7 @@ const Story: React.FC = () => {
         </Row>
       </Container>
       <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
-        Submit
+        Create Story!
       </button>
     </>
   );

@@ -635,7 +635,7 @@ const StroySearch: React.FC = () => {
 
         <Form.Item>
           <Button type="primary" onClick={handleSubmit}>
-            Submit
+            Search!
           </Button>
         </Form.Item>
 
