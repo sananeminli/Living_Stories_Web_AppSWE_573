@@ -8,18 +8,17 @@ const LandingPage: React.FC = () => {
   const token = localStorage.getItem("jwt_Token");
     const navigate = useNavigate()
     return(
-        <div className="container" style={{textAlignLast:"center" , minWidth:"-webkit-fill-available"}}>
-        <Image src="./src/assets/images/logo_kare.png" preview = {false} style={{ width: '50%', height: 'auto' }}/>
+        <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center", minWidth: "-webkit-fill-available" }}>
+        <Image src="./src/assets/images/logo_kare.png" preview = {false} style={{ width: '40%', height: 'auto' }}/>
         
-            <Row xs = {3} >
-                <Button onClick={()=>{navigate("/register")}}>Register</Button>
-            </Row>
-            <Row>
+            
+                <Button style={{margin:"10px"}} onClick={()=>{navigate("/register")}}>Register!</Button>
+            
                 
-            </Row>
-            <Row xs = {3} style={{marginTop:"10px"}} >
-                <Button onClick={()=>{navigate("/login")}}>Log in!</Button>
-            </Row>
+            
+           
+                <Button style={{margin:"10px"}} onClick={()=>{navigate("/login")}}>Log in!</Button>
+           
         
         </div>
     )
