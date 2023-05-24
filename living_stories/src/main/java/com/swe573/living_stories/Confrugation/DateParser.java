@@ -27,7 +27,7 @@ public class DateParser {
                 System.out.println(formatter.parse(dateString));
                 return formatter.parse(dateString);
             } catch (Exception e) {
-                // ignore and try next format
+
             }
         }
         throw new IllegalArgumentException("Invalid date format: " + dateString);
@@ -40,7 +40,7 @@ public class DateParser {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 return formatter.parse(dateTimeString);
             } catch (Exception e) {
-                // ignore and try next format
+
             }
         }
         throw new IllegalArgumentException("Invalid date-time format: " + dateTimeString);
@@ -50,7 +50,7 @@ public class DateParser {
 
 
     public static String getDateFromDate(Date date) {
-        System.out.println("buradayiq");
+
 
 
         for (String format : DATE_FORMATS ) {
@@ -60,11 +60,11 @@ public class DateParser {
                 Date parsedDate = formatter.parse(dateString);
                 if (parsedDate.equals(date)) {
 
-                    System.out.println(dateString);
+
                     return dateString;
                 }
             } catch (Exception e) {
-                // ignore and try next format
+
             }
         }
 
