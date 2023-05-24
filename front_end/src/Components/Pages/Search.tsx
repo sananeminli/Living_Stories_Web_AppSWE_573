@@ -20,8 +20,6 @@ import { Autocomplete, GoogleMap, Marker } from "@react-google-maps/api";
 import { StoryInt } from "../../Interfaces/StoryInt";
 import Story from "../Components/StoryCard";
 import dayjs from "dayjs";
-;
-
 interface storySearchData {
   name?: string;
   text?: string;
@@ -217,36 +215,36 @@ const StroySearch: React.FC = () => {
       ...(selectedSeason && { startSeason: selectedSeason }),
       ...(selectedSeasonEnd && { endSeason: selectedSeasonEnd }),
     };
-    const allFieldsEmpty = Object.values(searchData).every(value => value === undefined || value === '');
-
-  if (allFieldsEmpty) {
-    
-    alert("No search criteria provided");
-    return;
-  }else{ try {
-    console.log(searchData);
-    const response = await axios.post(
-      `${import.meta.env.VITE_BACKEND_URL}/stories/search`,
-      searchData,
-      { withCredentials: true }
+    const allFieldsEmpty = Object.values(searchData).every(
+      (value) => value === undefined || value === ""
     );
 
-    if (response.status === 200) {
-      // Redirect or update the state based on successful login
-      console.log(response.data);
+    if (allFieldsEmpty) {
+      alert("No search criteria provided");
+      return;
+    } else {
+      try {
+        console.log(searchData);
+        const response = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/stories/search`,
+          searchData,
+          { withCredentials: true }
+        );
 
-      setStories(response.data);
+        if (response.status === 200) {
+          // Redirect or update the state based on successful login
+          console.log(response.data);
+
+          setStories(response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
-  } catch (error) {
-    console.log(error);
-  }}
-
-   
   };
-  const navigate = useNavigate()
-  
-  
-   useEffect(() => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
     const cookieValue = document.cookie
       .split("; ")
       .find((row) => row.startsWith("jwt_Token"))
@@ -256,7 +254,6 @@ const StroySearch: React.FC = () => {
       navigate("/login");
     }
   }, []);
-
 
   const handleSubmit = async (event: any) => {
     form.submit();
@@ -582,40 +579,40 @@ const StroySearch: React.FC = () => {
           </>
         )}
         <Form.Item>
-        <Row>
-          <div className="form-group">
-            <label>Locations:</label>
-            <Autocomplete
-              onLoad={(autocomplete) => {
-                autocompleteRef.current = autocomplete;
-              }}
-              onPlaceChanged={handleLocationSelect}
-            >
-              <input type="text" className="form-control" />
-            </Autocomplete>
+          <Row>
+            <div className="form-group">
+              <label>Locations:</label>
+              <Autocomplete
+                onLoad={(autocomplete) => {
+                  autocompleteRef.current = autocomplete;
+                }}
+                onPlaceChanged={handleLocationSelect}
+              >
+                <input type="text" className="form-control" />
+              </Autocomplete>
 
-            {locations && (
-              <div>
-                <li
-                  style={{
-                    display: "inline-block",
-                    marginRight: "0.5em",
-                    marginLeft: "0.5em",
-                  }}
-                >
-                  {locations.name || `${locations.lat}, ${locations.lng}`}
-                </li>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setLocations(undefined)}
-                >
-                  Remove
-                </button>
-              </div>
-            )}
-          </div>
-        </Row>
+              {locations && (
+                <div>
+                  <li
+                    style={{
+                      display: "inline-block",
+                      marginRight: "0.5em",
+                      marginLeft: "0.5em",
+                    }}
+                  >
+                    {locations.name || `${locations.lat}, ${locations.lng}`}
+                  </li>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setLocations(undefined)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
+            </div>
+          </Row>
         </Form.Item>
         <Form.Item>
           <GoogleMap
@@ -645,8 +642,6 @@ const StroySearch: React.FC = () => {
             Search!
           </Button>
         </Form.Item>
-
-        
       </Form>
       {stories !== null && (
         <Container>
@@ -654,11 +649,14 @@ const StroySearch: React.FC = () => {
             <h2>Results</h2>
           </Row>
           <ul style={{ listStyle: "none", marginRight: "10px" }}>
-            {stories?.slice().reverse().map((story: StoryInt) => (
-              <li key={story.id}>
-                <Story story={story} />
-              </li>
-            ))}
+            {stories
+              ?.slice()
+              .reverse()
+              .map((story: StoryInt) => (
+                <li key={story.id}>
+                  <Story story={story} />
+                </li>
+              ))}
           </ul>
         </Container>
       )}
