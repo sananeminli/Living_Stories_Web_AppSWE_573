@@ -76,7 +76,7 @@ const HomePage: React.FC = () => {
   return (
     <div>
       <NavBar/>
-      <h1 style={{ textAlign: "center" ,fontFamily: 'HandWriting' , margin:"10px" }}>Recent Stories</h1>
+      <h1 style={{ textAlign: "center" ,fontFamily: 'HandWriting' , marginTop:"40px", marginBottom:"30px" }}>Recent Stories</h1>
       <Row style={{justifyContent:"center"}}>
         <Radio.Group style={{margin:"5px"}}
                 options={options}

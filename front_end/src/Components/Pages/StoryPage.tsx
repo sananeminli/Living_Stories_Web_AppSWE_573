@@ -275,9 +275,10 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
       </Container>
 
       <Container>
-        <Row>
-          <Col xs={10}>
+        <Row style={{marginTop:"20px", marginBottom:"20px"}}>
+          <Col xs={10} >
             <TextArea
+            
               autoSize={true}
               placeholder="Write a comment!"
               onChange={handleCommentChange}
@@ -290,9 +291,9 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
       </Container>
       
       <Container>
-        <Row>
+        <Row style={{marginBottom:"10px"}}>
           {story.comments &&
-            story.comments.slice().reverse().map((comment, index) => (
+            story.comments.reverse().map((comment, index) => (
               <div key={index}>
                 <CommentComponent comment={comment}/>
               </div>

@@ -260,6 +260,14 @@ const Story: React.FC = () => {
       ...(selectedSeasonEnd && { endSeason: selectedSeasonEnd })
     };
     async function postData() {
+      const requiredFieldsEmpty = [storyRequest.richText, storyRequest.header, storyRequest.locations,storyRequest.startDate].some(
+        (value) => value === undefined || value === ""|| value.length===0
+      );
+  
+      if (requiredFieldsEmpty) {
+        alert("The necessary field is empty! Please make sure necessary fields like header and text are not empty, and the story has a start date and at least one location.");
+        return;
+      } else {
       try {
         console.log(storyRequest);
         const response = await axios.post(
@@ -275,6 +283,7 @@ const Story: React.FC = () => {
         console.error("Error:", error);
       }
     }
+  }
 
     postData();
     navigate("/home");
@@ -324,8 +333,7 @@ const Story: React.FC = () => {
   return (
     <>
       <NavBar />
-      {startDate && <div>Combined DateTime: {combinedStartDateTimeString}</div>}
-      {endtDate && <div>Combined End DateTime: {combinedEndDateTimeString}</div>}
+
       <Container>
         <Row>
           <Col>
@@ -377,13 +385,14 @@ const Story: React.FC = () => {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col style={{marginRight:"30px"}}>
             <Row>
               <Select
                 value={selectedSeason}
                 onChange={(value) => setSelectedSeason(value)}
                 options={seasonOptions}
-                placeholder="Select a season."
+                placeholder="Select a start season."
+                style={{marginBottom:"30px"}}
               />
 
               <Radio.Group
@@ -392,12 +401,14 @@ const Story: React.FC = () => {
                 value={selectedOption}
                 optionType="button"
                 buttonStyle="solid"
+                style={{marginBottom:"10px"}}
               />
               {selectedOption === "exact-year" && (
                 <>
                   <TimePicker
                     onChange={handleStartTimeChange}
                     defaultOpenValue={dayjs("00:00:00", "HH:mm:ss")}
+                    style={{marginBottom:"10px"}}
                   />
                   <DatePicker
                     placeholder="Select start date!"
@@ -452,7 +463,8 @@ const Story: React.FC = () => {
                 value={selectedSeasonEnd}
                 onChange={(value) => setSelectedSeasonEnd(value)}
                 options={seasonOptions}
-                placeholder="Select a season."
+                placeholder="Select an end season."
+                style={{marginBottom:"30px"}}
               />
               <Radio.Group
                 options={options}
@@ -460,12 +472,14 @@ const Story: React.FC = () => {
                 value={selectedOptionEnd}
                 optionType="button"
                 buttonStyle="solid"
+                style={{marginBottom:"10px"}}
               />
               {selectedOptionEnd === "exact-year" && (
                 <>
                   <TimePicker
                     onChange={handleEndTimeChange}
                     defaultOpenValue={dayjs("00:00:00", "HH:mm:ss")}
+                    style={{marginBottom:"10px"}}
                   />
                   <DatePicker
                     placeholder="Select end date!"
@@ -520,7 +534,11 @@ const Story: React.FC = () => {
               onChange={handleEditorChange}
               formats={formats}
               modules={modules}
+              style={{marginTop:"50px"}}
             />
+            <button style={{marginTop:"40px"}} type="submit" className="btn btn-primary" onClick={handleSubmit}>
+        Create Story!
+      </button>
           </Col>
           <Col sm={4}>
             <Row>
@@ -577,11 +595,11 @@ const Story: React.FC = () => {
               </GoogleMap>
             </Row>
           </Col>
+          
         </Row>
+        
       </Container>
-      <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
-        Create Story!
-      </button>
+      
     </>
   );
 };

@@ -51,8 +51,8 @@ const LoginPage: React.FC = () => {
   // ... (return code)
 
   return (
-    <div className="background_gif" style={{minWidth:"-webkit-fill-available"}}>
-      <img src="./src/assets/images/plate.png"  style={{ width:"28%" , height:"auto" }}/>
+    <div className="background_gif" style={{minWidth:"-webkit-fill-available", height: "100vh" }}>
+      <img src="./src/assets/images/logo_kare.png"  style={{ width:"70%" , height:"auto" ,marginTop:"50px"}}/>
       <Row style={{ justifyContent: "center", marginTop: "50px" }}>
         <Form
           name="control-ref"
