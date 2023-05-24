@@ -41,7 +41,9 @@ const LoginPage: React.FC = () => {
         console.log("Login successful");
         navigate("/home");
       }
+      
     } catch (error) {
+      alert("Wrong email or password provided! Try again!")
       console.log(error);
     }
   };

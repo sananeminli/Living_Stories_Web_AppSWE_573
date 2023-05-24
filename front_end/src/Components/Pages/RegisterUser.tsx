@@ -34,6 +34,7 @@ const RegisterUser: React.FC = () => {
         navigate('/login',{replace: true})
         
       } catch (error) {
+        alert("User already exsist or something wrong with server! Try again!")
         console.error(error);
       }
       console.log(formData);

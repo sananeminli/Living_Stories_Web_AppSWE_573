@@ -13,14 +13,14 @@ import {
 
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { Container, Nav, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import NavBar from "../Components/NavBar";
 import { Link, useNavigate } from "react-router-dom";
 import { Autocomplete, GoogleMap, Marker } from "@react-google-maps/api";
 import { StoryInt } from "../../Interfaces/StoryInt";
 import Story from "../Components/StoryCard";
 import dayjs from "dayjs";
-import type { Dayjs } from "dayjs";
+;
 
 interface storySearchData {
   name?: string;
@@ -217,24 +217,31 @@ const StroySearch: React.FC = () => {
       ...(selectedSeason && { startSeason: selectedSeason }),
       ...(selectedSeasonEnd && { endSeason: selectedSeasonEnd }),
     };
+    const allFieldsEmpty = Object.values(searchData).every(value => value === undefined || value === '');
 
-    try {
-      console.log(searchData);
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/stories/search`,
-        searchData,
-        { withCredentials: true }
-      );
+  if (allFieldsEmpty) {
+    
+    alert("No search criteria provided");
+    return;
+  }else{ try {
+    console.log(searchData);
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/stories/search`,
+      searchData,
+      { withCredentials: true }
+    );
 
-      if (response.status === 200) {
-        // Redirect or update the state based on successful login
-        console.log(response.data);
+    if (response.status === 200) {
+      // Redirect or update the state based on successful login
+      console.log(response.data);
 
-        setStories(response.data);
-      }
-    } catch (error) {
-      console.log(error);
+      setStories(response.data);
     }
+  } catch (error) {
+    console.log(error);
+  }}
+
+   
   };
   const navigate = useNavigate()
   
