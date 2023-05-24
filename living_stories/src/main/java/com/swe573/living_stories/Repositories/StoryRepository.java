@@ -22,7 +22,6 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
             " WHERE" +
             " (:header IS NULL OR LOWER(s.header) LIKE CONCAT('%', :header, '%'))" +
             " AND (:userName IS NULL OR LOWER(s.user.name) LIKE CONCAT('%', LOWER(:userName), '%'))" +
-
             " AND (:text IS NULL OR LOWER(s.richText) LIKE CONCAT('%', LOWER(:text), '%'))" +
             " AND (:city IS NULL OR EXISTS (SELECT l FROM s.locations l WHERE LOWER(l.city) LIKE CONCAT('%', LOWER(:city), '%')))" +
             " AND (:country IS NULL OR EXISTS (SELECT l FROM s.locations l WHERE LOWER(l.country) LIKE CONCAT('%', LOWER(:country), '%')))" +
@@ -32,6 +31,7 @@ public interface StoryRepository extends JpaRepository<Story, Long> {
             "   (l.lng BETWEEN :lngRangeMin AND :lngRangeMax) OR (l.lng IS NULL)))" +
             " AND (:startSeason IS NULL OR s.startSeason = :startSeason)" +
             " AND (:endSeason IS NULL OR s.endSeason = :endSeason)")
+
     List<Story> search(
             @Param("header") String header,
             @Param("userName") String userName,

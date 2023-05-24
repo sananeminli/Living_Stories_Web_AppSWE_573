@@ -101,6 +101,7 @@ const EditUser: React.FC = () => {
     <>
       <NavBar/>
       <h2>Edit Profile</h2>
+      <h3>Change profile picture or edit bio!</h3>
       <Container>
         <Row>
           <Col sm={4}>
@@ -120,13 +121,13 @@ const EditUser: React.FC = () => {
               
             </Row>
           </Col>
-          <Col >
-            <TextArea onChange={handleBioChange} value={bio} rows={8} />
-          </Col>
+          <Col style={{ width: '50%' }}> 
+      <TextArea onChange={handleBioChange} value={bio} rows={8} />
+    </Col>
          
         </Row>
         <Row>
-          <Button onClick={handleSubmit}>Save</Button>
+          <Button onClick={handleSubmit}>Save Changes!</Button>
         </Row>
       </Container>
     </>

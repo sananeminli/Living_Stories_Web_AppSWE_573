@@ -8,15 +8,16 @@ const LandingPage: React.FC = () => {
   const token = localStorage.getItem("jwt_Token");
     const navigate = useNavigate()
     return(
-        <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center", minWidth: "-webkit-fill-available" }}>
+        <div className="background_gif" style={{ display: "flex", flexDirection: "column", alignItems: "center", minWidth: "-webkit-fill-available" }}>
         <Image src="./src/assets/images/logo_kare.png" preview = {false} style={{ width: '40%', height: 'auto' }}/>
+        <h3 style={{color:"white"}}> Welcome to Living Stories, the ultimate writing and memory sharing app, where you can unleash your creativity and connect with others through the power of beatiful memories.</h3>
         
-            
+                <p style={{color:"white",margin:"10px"}}>If you don't have an account, register first!</p>
                 <Button style={{margin:"10px"}} onClick={()=>{navigate("/register")}}>Register!</Button>
             
                 
             
-           
+                <p style={{color:"white",margin:"10px"}}>If you have an account login!</p>
                 <Button style={{margin:"10px"}} onClick={()=>{navigate("/login")}}>Log in!</Button>
            
         

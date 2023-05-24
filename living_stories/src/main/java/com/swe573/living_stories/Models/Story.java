@@ -35,12 +35,12 @@ import java.util.List;
         @NotBlank
         private String header;
 
-
         @Column
         private ArrayList<String> labels = new ArrayList<>();
 
         @Column
         private ArrayList<Long> likes = new ArrayList<>();
+
         @Column
         private String startSeason;
 

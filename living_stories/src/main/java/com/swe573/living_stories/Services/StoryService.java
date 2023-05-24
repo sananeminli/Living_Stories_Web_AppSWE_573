@@ -223,18 +223,17 @@ public class StoryService {
 
 
         List<Story> stories = storyRepository.search(searchRequest.getHeader() , searchRequest.getName(), searchRequest.getCity(), searchRequest.getCountry(),searchRequest.getText(),latRangeMin,latRangeMax,lngRangeMin,lngRangeMax, searchRequest.getStartSeason(), searchRequest.getEndSeason());
-        if (searchRequest.getLabel() != null ) {
+        if (searchRequest.getLabel() != null) {
             String label = searchRequest.getLabel();
-            for (Story s:
-                 stories) {
-                if (!s.getLabels().contains(label)){
-                    stories.remove(s);
-                }
-                if(stories.isEmpty()){
-                    break;
+            Iterator<Story> iterator = stories.iterator();
+            while (iterator.hasNext()) {
+                Story story = iterator.next();
+                if (!story.getLabels().contains(label)) {
+                    iterator.remove();
                 }
             }
         }
+
         List<Story> result  = new ArrayList<>();
 
         if (searchRequest.getStartDate() != null&& searchRequest.getEndDate()==null) {
