@@ -41,7 +41,7 @@ const HomePage: React.FC = () => {
   const [stories, setStories] = useState<Story[]>([]);
   const [selectedOption, setSelectedOption] = useState<string>("all");
   const nav = useNavigate()
-  const token = localStorage.getItem("jwt_Token");  useEffect(() => {
+  useEffect(() => {
     const cookieValue = document.cookie
       .split("; ")
       .find((row) => row.startsWith("jwt_Token"))
@@ -87,7 +87,7 @@ const HomePage: React.FC = () => {
                 
               /></Row>
       <ul style={{listStyle:"none" , marginRight:"10px"}}>
-        {stories.reverse().map((story: Story) => (
+        {stories.slice().reverse().map((story: Story) => (
           <li key={story.id}>
             <Story story={story} />
           </li>

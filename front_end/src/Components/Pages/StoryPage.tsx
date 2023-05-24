@@ -100,6 +100,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
       },
     [slocations]
   );
+  
 
   const [comment, setComment] = useState<string>(" ");
 
@@ -291,7 +292,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
       <Container>
         <Row>
           {story.comments &&
-            story.comments.map((comment, index) => (
+            story.comments.slice().reverse().map((comment, index) => (
               <div key={index}>
                 <CommentComponent comment={comment}/>
               </div>

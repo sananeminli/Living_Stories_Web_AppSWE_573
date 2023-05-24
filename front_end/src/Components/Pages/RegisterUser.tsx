@@ -57,7 +57,7 @@ const RegisterUser: React.FC = () => {
   return (
     
     
-      <div className="container" style={{textAlignLast:"center" , minWidth:"-webkit-fill-available"}}>
+      <div className="background_gif" style={{textAlignLast:"center" , minWidth:"-webkit-fill-available"}}>
         <img src="./src/assets/images/logo_kare.png"  style={{ width:"30%"  , height:"auto" }}/>
         <h1>Welcome to Living Stories!</h1>
         <Row style={{ justifyContent: "center", marginTop: "50px" }}>

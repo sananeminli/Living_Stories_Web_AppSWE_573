@@ -49,7 +49,7 @@ const LoginPage: React.FC = () => {
   // ... (return code)
 
   return (
-    <div className="container" style={{minWidth:"-webkit-fill-available"}}>
+    <div className="background_gif" style={{minWidth:"-webkit-fill-available"}}>
       <img src="./src/assets/images/plate.png"  style={{ width:"28%" , height:"auto" }}/>
       <Row style={{ justifyContent: "center", marginTop: "50px" }}>
         <Form

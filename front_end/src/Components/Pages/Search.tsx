@@ -76,7 +76,7 @@ const searchOptions: Option[] = [
 
 const searchDateOptions: Option[] = [
   { label: "Exact Date Search", value: "one_date" },
-  { label: "Interval", value: "interval" },
+  { label: "Interval Search", value: "interval" },
 ];
 
 const UserSearch: React.FC = () => {
@@ -167,7 +167,7 @@ const StroySearch: React.FC = () => {
   const [radius, setRadius] = useState<number>();
   const [selectedOption, setSelectedOption] = useState<string>("exact-year");
   const [selectedDateOption, setSelectedDateOption] =
-    useState<string>("interval");
+    useState<string>("one_date");
   const [selectedSeason, setSelectedSeason] = useState<string>();
   const [selectedSeasonEnd, setSelectedSeasonEnd] = useState<string>();
   const [selectedOptionEnd, setSelectedOptionEnd] =
@@ -647,7 +647,7 @@ const StroySearch: React.FC = () => {
             <h2>Results</h2>
           </Row>
           <ul style={{ listStyle: "none", marginRight: "10px" }}>
-            {stories?.reverse().map((story: StoryInt) => (
+            {stories?.slice().reverse().map((story: StoryInt) => (
               <li key={story.id}>
                 <Story story={story} />
               </li>

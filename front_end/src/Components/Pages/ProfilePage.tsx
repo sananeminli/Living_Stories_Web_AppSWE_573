@@ -112,6 +112,9 @@ const ProfilePage: React.FC = () => {
         <Row>
           <h3>{user.name}</h3>
         </Row>
+        {user.followers && <Row>
+          <p>Number of followers: {user.followers.length}</p>
+        </Row>}
         {isAuthor ? (
           <Button
             onClick={() => {
@@ -124,11 +127,15 @@ const ProfilePage: React.FC = () => {
           <FollowButton followers={user.followers} id={user.id} />
         )}
       </Card>
-      <Row>
+      <Row style={{marginLeft:"20px"}}>
         <h2>{user.name}'s Stories </h2>
       </Row>
+      {user.stories && <Row style={{marginLeft:"20px"}}>
+         <p>{user.name} have {user.stories.length} story!</p>
+      </Row>}
+      
       <ul>
-        {user.stories?.map((story) => (
+        {user.stories?.slice().reverse().map((story) => (
           <li style={{ listStyle: "none" }} key={story.id}>
             <StoryComponent story={story} />
           </li>

@@ -8,7 +8,7 @@ const LandingPage: React.FC = () => {
   const token = localStorage.getItem("jwt_Token");
     const navigate = useNavigate()
     return(
-        <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center", minWidth: "-webkit-fill-available" }}>
+        <div className="background_gif" style={{ display: "flex", flexDirection: "column", alignItems: "center", minWidth: "-webkit-fill-available" }}>
         <Image src="./src/assets/images/logo_kare.png" preview = {false} style={{ width: '40%', height: 'auto' }}/>
         
             
