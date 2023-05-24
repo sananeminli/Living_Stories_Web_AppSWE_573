@@ -43,13 +43,7 @@ const NavBar: React.FC = () => {
   return (
     <Navbar bg="primary" expand="lg" variant="dark" style={{fontFamily: 'HandWriting' , fontSize:"xx-large"}}>
       <Container>
-        <Navbar.Brand href="/home" ><img
-              src="../src/assets/images/logo_kare.png"
-              width="50"
-              height="60"
-              className="d-inline-block align-top"
-              alt="React Bootstrap logo"
-            /></Navbar.Brand>
+        <Navbar.Brand href="/home" >Living Stories</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav  className="me-auto">
