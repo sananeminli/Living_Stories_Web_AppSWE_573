@@ -24,7 +24,6 @@ services:
     depends_on:
       - backend
 
-
   db:
     image: postgres
     restart: always
@@ -36,6 +35,6 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
-  volumes:
-    backend-data:
-    db-data:
+volumes:
+  backend-data:
+  db-data:
