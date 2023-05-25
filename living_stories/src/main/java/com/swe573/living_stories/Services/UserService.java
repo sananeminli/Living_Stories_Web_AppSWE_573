@@ -45,7 +45,6 @@ public class UserService {
                     try{
 
                         Long id = jwtUtils.extractId(cookieValue);
-                        System.out.println(id);
                         Optional<User> optionalUser =  userRepository.findById(id);
                         if (optionalUser.isPresent()){
                             User user = optionalUser.get();

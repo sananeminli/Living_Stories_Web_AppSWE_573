@@ -41,7 +41,7 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <Navbar bg="primary" expand="lg" variant="dark" style={{fontFamily: 'HandWriting' , fontSize:"xx-large"}}>
+    <Navbar  expand="lg" variant="dark" style={{fontFamily: 'HandWriting' , fontSize:"xx-large",backgroundColor: '#1F6C5C'}}>
       <Container>
         
         
@@ -63,15 +63,15 @@ const NavBar: React.FC = () => {
               alt="React Bootstrap logo"
             /></Navbar.Brand>
       </Container>
-      <Button 
+      <Button variant='secondary'
         onClick={() => {
           navigate("/story", { replace: true });
         }}
-        style={{ minWidth:"fit-content",fontSize:"xx-large" }}
+        style={{ minWidth:"fit-content",fontSize:"xx-large" , backgroundColor: '#1F6C5C', outline:"none"}}
       >
         Create Story
       </Button>
-      <Button onClick={logout} style={{ minWidth:"fit-content", fontSize:"xx-large" }}>Log Out</Button>
+      <Button variant='secondary' onClick={logout} style={{ minWidth:"fit-content", fontSize:"xx-large", backgroundColor: '#1F6C5C' }}>Log Out</Button>
     </Navbar>
   );
 };

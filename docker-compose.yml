@@ -21,6 +21,8 @@ services:
       - ./front_end/.env
     depends_on:
       - backend
+    volumes:
+      - backend-data:/path/to/backend/data
 
   db:
     image: postgres
@@ -30,3 +32,9 @@ services:
       - "5432:5432"
     env_file:
       - ./front_end/.env
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  volumes:
+    backend-data:
+    db-data:
