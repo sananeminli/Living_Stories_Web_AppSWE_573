@@ -8,6 +8,8 @@ services:
       - "8080:8080"
     env_file:
       - ./front_end/.env
+    volumes:
+      - backend-data:/path/to/backend/data
     depends_on:
       - db
 
@@ -21,8 +23,7 @@ services:
       - ./front_end/.env
     depends_on:
       - backend
-    volumes:
-      - backend-data:/path/to/backend/data
+
 
   db:
     image: postgres
