@@ -133,6 +133,12 @@ public class StoryController {
         return storyService.newsearch(searchRequest);
     }
 
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id ){
+         storyService.deleteStoryById(id);
+         return "done";
+    }
+
 
 
     @PostMapping("/like/{storyId}")
