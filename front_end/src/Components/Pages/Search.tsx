@@ -218,6 +218,10 @@ const StroySearch: React.FC = () => {
     const allFieldsEmpty = Object.values(searchData).every(
       (value) => value === undefined || value === ""
     );
+    const search_url =
+      selectedOption === "one_day"
+        ? `${import.meta.env.VITE_BACKEND_URL}/stories/search`
+        : `${import.meta.env.VITE_BACKEND_URL}/stories/intervalsearch`;
 
     if (allFieldsEmpty) {
       alert("No search criteria provided");
@@ -226,7 +230,7 @@ const StroySearch: React.FC = () => {
       try {
         console.log(searchData);
         const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/stories/search`,
+          search_url,
           searchData,
           { withCredentials: true }
         );

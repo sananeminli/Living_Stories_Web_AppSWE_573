@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -64,13 +65,50 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/getname")
+    public ResponseEntity<User> getname(HttpServletRequest request) {
+        Long userId = userService.isUserLoggedIn(request);
+        Optional<User> user = userService.getUserById(userId);
+        if (user.isPresent()) {
+            User user1  = user.get();
+            user1.setFollowing(null);
+            user1.setBiography(null);
+            user1.setFollowers(null);
+            user1.setPhoto(null);
+            user1.setStories(null);
+            user1.setEmail(null);
+            user1.setPassword(null);
+            return ResponseEntity.ok(user1);
+
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+
     @GetMapping("/profile")
     public ResponseEntity<User> getUserById(HttpServletRequest request) {
         Long userId = userService.isUserLoggedIn(request);
         Optional<User> user = userService.getUserById(userId);
         if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
+            User user1  = user.get();
+            user1.setEmail(null);
+            user1.setPassword(null);
+            user1.setFollowing(null);
+            if (user1.getFollowers() != null) {
+                Set<User> users = user1.getFollowers();
+                for (User follower:users) {
+                    follower.setFollowing(null);
+                    follower.setFollowers(null);
+                    follower.setPhoto(null);
+                    follower.setStories(null);
+                    follower.setBiography(null);
+                    follower.setEmail(null);
+                }
+
+            }
+            return ResponseEntity.ok(user1);
         }
+
         return ResponseEntity.notFound().build();
     }
     @DeleteMapping("/{id}")
