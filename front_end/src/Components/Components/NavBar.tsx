@@ -19,7 +19,7 @@ const NavBar: React.FC = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get<User>(
-          `${import.meta.env.VITE_BACKEND_URL}/users/profile`,
+          `${import.meta.env.VITE_BACKEND_URL}/users/getname`,
           { withCredentials: true }
         );
         setUser(response.data);
