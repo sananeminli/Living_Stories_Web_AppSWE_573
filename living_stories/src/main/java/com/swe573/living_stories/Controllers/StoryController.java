@@ -1,5 +1,6 @@
 package com.swe573.living_stories.Controllers;
 
+import com.swe573.living_stories.Models.Comment;
 import com.swe573.living_stories.Models.Media;
 import com.swe573.living_stories.DTO.MediaDTO;
 import com.swe573.living_stories.Models.Story;
@@ -109,6 +110,17 @@ public class StoryController {
         Long userId = userService.isUserLoggedIn(request);
 
         List<Story> stories = storyService.getAllStories();
+        for(Story story:stories){
+            story.setRichText(null);
+            if (story.getComments() != null) {
+                for (Comment comment:
+                     story.getComments()) {
+                        comment.setUser(null);
+                        comment.setText(null);
+                }
+            }
+
+        }
         return ResponseEntity.ok(stories);
     }
 
@@ -131,6 +143,11 @@ public class StoryController {
     public List<Story> search(HttpServletRequest request , @RequestBody SearchRequest searchRequest){
         userService.isUserLoggedIn(request);
         return storyService.newsearch(searchRequest);
+    }
+    @PostMapping("/intervalsearch")
+    public List<Story> intervalSearch(HttpServletRequest request , @RequestBody SearchRequest searchRequest){
+        userService.isUserLoggedIn(request);
+        return storyService.intervalSearch(searchRequest);
     }
 
     @GetMapping("/delete/{id}")

@@ -199,7 +199,76 @@ public class StoryService {
         }
     }
 
+    public List<Story> intervalSearch(SearchRequest searchRequest){
+        Double latRangeMin = null;
+        Double latRangeMax = null;
+        Double lngRangeMin = null;
+        Double lngRangeMax = null;
+        if (searchRequest.getRadius() != null) {
+            Double latitude = searchRequest.getLatitude();
+            Double longitude = searchRequest.getLongitude();
+            Double radius = searchRequest.getRadius();
 
+            latRangeMin = latitude - (radius / 110.574);
+            latRangeMax = latitude + (radius / 110.574);
+            lngRangeMin = longitude - (radius / (111.320 * Math.cos(Math.toRadians(latitude))));
+            lngRangeMax = longitude + (radius / (111.320 * Math.cos(Math.toRadians(latitude))));
+
+        }
+
+
+
+
+
+        List<Story> stories = storyRepository.search(searchRequest.getHeader() , searchRequest.getName(), searchRequest.getCity(), searchRequest.getCountry(),searchRequest.getText(),latRangeMin,latRangeMax,lngRangeMin,lngRangeMax, searchRequest.getStartSeason(), searchRequest.getEndSeason());
+        if (searchRequest.getLabel() != null) {
+            String label = searchRequest.getLabel();
+            Iterator<Story> iterator = stories.iterator();
+            while (iterator.hasNext()) {
+                Story story = iterator.next();
+                if (!story.getLabels().contains(label)) {
+                    iterator.remove();
+                }
+            }
+        }
+
+        List<Story> result  = new ArrayList<>();
+
+        if (searchRequest.getStartDate() != null&& searchRequest.getEndDate()==null) {
+            Date startDate = DateParser.parseDate(searchRequest.getStartDate());
+            for (Story story: stories) {
+                if (story.getStartDate()!=null && story.getStartDate().after(startDate)){
+                    result.add(story);
+                }
+            }
+        }else if (searchRequest.getStartDate() != null&&searchRequest.getEndDate() != null) {
+            Date endDate = DateParser.parseDate(searchRequest.getEndDate());
+            Date startDate = DateParser.parseDate(searchRequest.getStartDate());
+            for (Story story: stories) {
+                if (story.getStartDate()!=null && story.getStartDate().after(startDate) && story.getEndDate()==null&& story.getStartDate().before(endDate) ){
+                    result.add(story);
+                } else if (story.getStartDate()!=null && story.getStartDate().after(startDate) && story.getEndDate()!=null&& story.getEndDate().before(endDate) ) {
+                    result.add(story);
+                }
+            }
+        }
+
+        else if (searchRequest.getStartDate() == null&&searchRequest.getEndDate() != null) {
+            Date endDate = DateParser.parseDate(searchRequest.getEndDate());
+            for (Story story: stories) {
+                if (story.getStartDate()!=null && story.getStartDate().before(endDate)){
+                    result.add(story);
+                }
+            }
+        }
+        if (searchRequest.getStartDate()==null && searchRequest.getEndDate() == null){
+            return stories;
+        }
+
+
+
+        return  result;
+    }
 
     public List<Story> newsearch(SearchRequest searchRequest){
         Double latRangeMin = null;
