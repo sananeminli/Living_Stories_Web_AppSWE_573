@@ -14,13 +14,14 @@ interface User {
 type Props = {
   type: "comment" | "story";
   id: number;
+  commentId?:number
 };
 
 interface StoryPageProps {
   story: StoryInt;
 }
 
-function LikeButton({ type, id }: Props) {
+function LikeButton({ type, id , commentId }: Props) {
   const [liked, setLiked] = useState(false);
   const [user, setUser] = useState<User>();
   const [story, setStory] = useState<StoryInt>();
@@ -28,18 +29,20 @@ function LikeButton({ type, id }: Props) {
 
   useEffect(() => {
     const fetchUser = async () => {
+      const url =
+      type === "comment"
+        ? `${import.meta.env.VITE_BACKEND_URL}/stories/commentliked/${id}`
+        : `${import.meta.env.VITE_BACKEND_URL}/stories/storyliked/${id}`;
       try {
-        const response = await axios.get<User>(
-          `${import.meta.env.VITE_BACKEND_URL}/users/profile`,
+        const response = await axios.get<string>(
+         url,
           { withCredentials: true }
         );
-        const response_story = await axios.get<StoryInt>(
-          `${import.meta.env.VITE_BACKEND_URL}/stories/${id}`,
-          { withCredentials: true }
-        );
-        setStory(response_story.data);
-        setUser(response.data);
-        checkLiked(response_story.data, response.data);
+        
+        if(response.data==="yes"){
+          setLiked(true)
+        }
+        
       } catch (error) {
         console.error(error);
       }
@@ -48,20 +51,12 @@ function LikeButton({ type, id }: Props) {
     fetchUser();
   }, []);
 
-  const checkLiked = (story: StoryInt, user: User) => {
-    console.log(story.comments.find(c => c.id === id))
-    if (type === "story" && story?.likes?.length !== 0 && story?.likes.includes(user?.id || 0)) {
-      setLiked(true);
-    }  if (type === "comment" && story?.comments?.find(c => c.id === id)?.likes?.includes(user?.id || 0)) {
-      console.log(story.comments.find(c => c.id === id))
-      setLiked(true);
-    }
-  };
+  
 
   const handleClick = () => {
     const url =
       type === "comment"
-        ? `${import.meta.env.VITE_BACKEND_URL}/stories/comments/like/${id}`
+        ? `${import.meta.env.VITE_BACKEND_URL}/stories/comments/like/${commentId}`
         : `${import.meta.env.VITE_BACKEND_URL}/stories/like/${id}`;
 
     axios

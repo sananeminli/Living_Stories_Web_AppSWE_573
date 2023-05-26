@@ -123,7 +123,43 @@ public class StoryController {
         }
         return ResponseEntity.ok(stories);
     }
+    @GetMapping("/commentliked/{id}")
 
+    public String commentLikedOrNor(@PathVariable Long id, HttpServletRequest request){
+        Long userId = userService.isUserLoggedIn(request);
+
+        Story story = storyService.getStoryById(id);
+        if (story!=null ) {
+
+            List<Comment> comments  = story.getComments();
+            if (comments != null) {
+                for (Comment comment:comments) {
+                    if (comment.getLikes() != null && comment.getLikes().contains(userId)) {
+                        return "yes";
+                    }
+
+                }
+
+            }
+
+
+        }
+        return "no";
+    }
+
+    @GetMapping("/storyliked/{id}")
+    public String likedOrNor(@PathVariable Long id, HttpServletRequest request){
+        Long userId = userService.isUserLoggedIn(request);
+
+        Story story = storyService.getStoryById(id);
+        if (story!=null ) {
+
+            if (story.getLikes()!=null && story.getLikes().contains(userId)) {
+                return "yes";
+            }
+        }
+        return "no";
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Story> getStoryById(@PathVariable Long id, HttpServletRequest request) {
         Long userId = userService.isUserLoggedIn(request);

@@ -295,7 +295,7 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
           {story.comments &&
             story.comments.reverse().map((comment, index) => (
               <div key={index}>
-                <CommentComponent comment={comment}/>
+                <CommentComponent comment={comment} storyId={story.id}/>
               </div>
             ))}
         </Row>

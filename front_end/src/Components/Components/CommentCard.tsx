@@ -23,12 +23,13 @@ interface Comment {
   
   interface CommentProps {
     comment: Comment;
+    storyId:number
   }
 
 
 
 
-const CommentComponent: React.FC<CommentProps> = ({ comment }) => {
+const CommentComponent: React.FC<CommentProps> = ({ comment, storyId }) => {
     return (
         <Card
           
@@ -58,7 +59,7 @@ const CommentComponent: React.FC<CommentProps> = ({ comment }) => {
           </Row>
           <Row>
           <p>Likes: {comment.likes.length}</p>
-                <LikeButton type="comment" id={comment.id} />
+                <LikeButton type="comment" id={storyId} commentId={comment.id} />
           </Row>
         </Card>
     )}
