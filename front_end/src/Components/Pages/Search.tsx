@@ -168,7 +168,7 @@ const StroySearch: React.FC = () => {
   const [startDate, setStartDate] = useState<dayjs.Dayjs | null>(null);
   const [endtDate, setEndDate] = useState<dayjs.Dayjs | null>(null);
   const [text, setText] = useState<string>();
-  const [radius, setRadius] = useState<number>();
+  const [radius, setRadius] = useState<number>(1);
   const [selectedOption, setSelectedOption] = useState<string>("exact-year");
   const [selectedDateOption, setSelectedDateOption] =
     useState<string>("one_date");
