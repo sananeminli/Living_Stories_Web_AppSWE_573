@@ -34,6 +34,7 @@ interface Story {
   startDate?: string;
   endDate?: string;
   likes: number[];
+  decade?:string
 }
 
 interface StoryProps {
@@ -93,10 +94,11 @@ const StoryComponent: React.FC<StoryProps> = ({ story }) => {
               <p style={{marginLeft:"10px"}}>Comments:{story.comments.length} </p>
             </Col>
 
-            <Col style={{marginLeft:"10px"}}>
+            {story.decade === undefined || story.decade === null && <Col style={{marginLeft:"10px"}}>
               <p >   {story.startDate} </p>
               <p>   {story.endDate}</p>
-            </Col>
+            </Col>}
+            {story.decade!==null && <Col style={{marginLeft:"10px"}}>{story.decade}</Col>}
           </Row>
         </Card>
       </Badge.Ribbon>

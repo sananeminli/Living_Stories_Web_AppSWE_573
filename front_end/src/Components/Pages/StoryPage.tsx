@@ -188,17 +188,20 @@ const StoryPage: React.FC<StoryPageProps> = ({ story }) => {
               </div>
             )}
           </Col>
+          {story.decade === undefined || story.decade === null &&
           <Col>
+          <Row>
+            <p>Start Date: {story.startDate}   {story.startSeason&& <p> Season: {story.startSeason}</p>}</p>
+           
+          </Row>
+          {story.endDate !== null && (
             <Row>
-              <p>Start Date: {story.startDate}   {story.startSeason&& <p> Season: {story.startSeason}</p>}</p>
-             
+              <p>End Date:{story.endDate}  {story.endSeason&& <p> Season: {story.endSeason}</p>}</p>
             </Row>
-            {story.endDate !== null && (
-              <Row>
-                <p>End Date:{story.endDate}  {story.endSeason&& <p> Season: {story.endSeason}</p>}</p>
-              </Row>
-            )}
-          </Col>
+          )}
+        </Col>}
+        {story.decade !== null && <Col><p> Decade: {story.decade}</p></Col>}
+          
           
         
 
