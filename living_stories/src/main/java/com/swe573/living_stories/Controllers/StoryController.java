@@ -42,6 +42,9 @@ public class StoryController {
         }
 
         Story story = new Story();
+        if (storyRequest.getDecade()!=null){
+            story.setDecade(storyRequest.getDecade());
+        }
         story.setText(storyRequest.getText());
         story.setUser(optionalUser.get());
         story.setHeader(storyRequest.getHeader());

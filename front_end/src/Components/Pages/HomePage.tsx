@@ -4,6 +4,7 @@ import Story from '../Components/StoryCard';
 import axios from 'axios';
 import NavBar from '../Components/NavBar';
 import { Radio, RadioChangeEvent, Row } from 'antd';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 type Option = {
   label: string;
@@ -64,6 +65,7 @@ const HomePage: React.FC = () => {
         withCredentials: true
       });
       setStories(response.data);
+      console.log(response.data)
     };
 
     fetchStories();

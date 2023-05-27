@@ -167,9 +167,11 @@ public class StoryService {
     public void addStartDate(Long storyId , String startDate) {
         Optional<Story> optionalStory  = storyRepository.findById(storyId);
         if (optionalStory.isPresent()){
+
             Story story  = optionalStory.get();
             Date date = DateParser.parseDate(startDate);
             story.setStartDate(date);
+
             storyRepository.save(story);
 
         }

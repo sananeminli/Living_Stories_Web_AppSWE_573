@@ -67,6 +67,12 @@ const exactDateFormat = "DD/MM/YYYY";
 const yearFormat = "YYYY";
 const monthFormat = "MM/YYYY";
 
+const decadeOption: Option[] = [
+  { label: "Date", value: "date" },
+  { label: "Decade", value: "decade" },
+  
+];
+
 const searchOptions: Option[] = [
   { label: "User", value: "user" },
   { label: "Story", value: "story" },
@@ -170,6 +176,8 @@ const StroySearch: React.FC = () => {
   const [selectedSeasonEnd, setSelectedSeasonEnd] = useState<string>();
   const [selectedOptionEnd, setSelectedOptionEnd] =
     useState<string>("exact-year");
+    const [selectedDateInput, setSelectedDateInput] = useState<string>("date");
+
   const [form] = Form.useForm();
 
   const seasonOptions = [
@@ -188,6 +196,25 @@ const StroySearch: React.FC = () => {
     month: "month",
     year: "year",
   };
+  const [selectedDecadeValue, setSelectedDecadeValue] = useState<number>();
+  const onRadioChangeInput = (e: RadioChangeEvent) => {
+    setSelectedDateInput(e.target.value);
+  };
+  const decadeSelectOptions = [
+    { value: 1901, label: "1900s" },
+    { value: 1911, label: "1910s" },
+    { value: 1921, label: "1920s" },
+    { value: 1931, label: "1930s" },
+    { value: 1941, label: "1940s" },
+    { value: 1951, label: "1950s" },
+    { value: 1961, label: "1960s" },
+    { value: 1971, label: "1970s" },
+    { value: 1981, label: "1980s" },
+    { value: 1991, label: "1990s" },
+    { value: 2001, label: "2000s" },
+    { value: 2011, label: "2010s" },
+    { value: 2025, label: "2020s" },
+  ];
 
   const combinedEndDateTimeString = `${
     endtDate && selectedOptionEnd === "exact-year"
@@ -229,11 +256,9 @@ const StroySearch: React.FC = () => {
     } else {
       try {
         console.log(searchData);
-        const response = await axios.post(
-          search_url,
-          searchData,
-          { withCredentials: true }
-        );
+        const response = await axios.post(search_url, searchData, {
+          withCredentials: true,
+        });
 
         if (response.status === 200) {
           // Redirect or update the state based on successful login
@@ -427,161 +452,185 @@ const StroySearch: React.FC = () => {
         >
           <Input value={text} onChange={(e) => setText(e.target.value)} />
         </Form.Item>
-
-        <Form.Item>
-          <Radio.Group
-            options={searchDateOptions}
-            onChange={onDateRadioChange}
-            value={selectedDateOption}
-            optionType="button"
-            buttonStyle="solid"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Select
-            allowClear
-            value={selectedSeason}
-            onChange={(value) => setSelectedSeason(value)}
-            options={seasonOptions}
-            placeholder="Select a season."
-          />
-        </Form.Item>
-        <Form.Item>
-          <Col>
+        
+        <Form.Item> <Radio.Group
+                options={decadeOption}
+                onChange={onRadioChangeInput}
+                value={selectedDateInput}
+                optionType="button"
+                buttonStyle="solid"
+                style={{marginBottom:"10px"}}
+              /></Form.Item>
+            {selectedDateInput!=="date"&&  <Select
+          value={selectedDecadeValue}
+          onChange={(value: number) => {
+            const decStartString = (value - 2).toString();
+            const decEndString = (value + 8).toString();
+            setStartDate(dayjs(decStartString.toString(), yearFormat));
+            setEndDate(dayjs(decEndString.toString(), yearFormat));
+            console.log(endtDate);
+          }}
+          options={decadeSelectOptions}
+          placeholder="Select a decade."
+          style={{ marginBottom: "30px" }}
+        />}
+        
+       { selectedDateInput === "date"&& <Form.Item>
+          <Form.Item>
             <Radio.Group
-              options={options}
-              onChange={onRadioChange}
-              value={selectedOption}
+              options={searchDateOptions}
+              onChange={onDateRadioChange}
+              value={selectedDateOption}
               optionType="button"
               buttonStyle="solid"
             />
-            {selectedOption === "exact-year" && (
-              <>
-                <DatePicker
-                  placeholder="Select start date!"
-                  status="error"
-                  picker="date"
-                  format={exactDateFormat}
-                  onChange={(date) => {
-                    if (selectedDateOption !== "interval") {
-                      const start = dayjs(date, exactDateFormat);
-                      const endDate = dayjs(date, exactDateFormat);
-                      setStartDate(start.subtract(1, "day"));
-                      setSelectedOptionEnd("exact-year");
-                      setEndDate(endDate.add(1, "day"));
-                    }
-                    const start = dayjs(date, exactDateFormat);
-                    setStartDate(start.subtract(1, "day"));
-                  }}
-                />
-              </>
-            )}
-            {selectedOption === "month" && (
-              <DatePicker
-                status="error"
-                format={monthFormat}
-                picker="month"
-                placeholder="Select start date!"
-                onChange={(date) => {
-                  if (selectedDateOption === "one_date") {
-                    const start = dayjs(date, monthFormat);
-                    const endDate = dayjs(date, monthFormat);
-                    setStartDate(start.subtract(1, "month"));
-                    setSelectedOptionEnd("month");
-                    setEndDate(endDate.add(1, "month"));
-                    console.log("burada");
-                  }
-                  const start = dayjs(date, monthFormat);
-                  setStartDate(start.subtract(1, "month"));
-                }}
-              />
-            )}
-            {selectedOption === "year" && (
-              <DatePicker
-                placeholder="Select start date!"
-                status="error"
-                format={yearFormat}
-                picker="year"
-                onChange={(date) => {
-                  if (selectedDateOption !== "interval") {
-                    const start = dayjs(date, yearFormat);
-                    const endDate = dayjs(date, yearFormat);
-                    setStartDate(start.subtract(1, "year"));
-                    setSelectedOptionEnd("year");
-                    setEndDate(endDate.add(1, "year"));
-                  }
-                  const start = dayjs(date, yearFormat);
-                  setStartDate(start.subtract(1, "year"));
-                }}
-              />
-            )}
-          </Col>
-        </Form.Item>
-        {selectedDateOption === "interval" && (
+          </Form.Item>
           <Form.Item>
             <Select
               allowClear
-              value={selectedSeasonEnd}
-              onChange={(value) => setSelectedSeasonEnd(value)}
+              value={selectedSeason}
+              onChange={(value) => setSelectedSeason(value)}
               options={seasonOptions}
               placeholder="Select a season."
             />
           </Form.Item>
-        )}
-
-        {selectedDateOption === "interval" && (
-          <>
-            <Form.Item>
-              <Col>
-                <Radio.Group
-                  options={options}
-                  onChange={onRadioChangeEnd}
-                  value={selectedOptionEnd}
-                  optionType="button"
-                  buttonStyle="solid"
+          <Form.Item>
+            <Col>
+              <Radio.Group
+                options={options}
+                onChange={onRadioChange}
+                value={selectedOption}
+                optionType="button"
+                buttonStyle="solid"
+              />
+              {selectedOption === "exact-year" && (
+                <>
+                  <DatePicker
+                    placeholder="Select start date!"
+                    status="error"
+                    picker="date"
+                    format={exactDateFormat}
+                    onChange={(date) => {
+                      if (selectedDateOption !== "interval") {
+                        const start = dayjs(date, exactDateFormat);
+                        const endDate = dayjs(date, exactDateFormat);
+                        setStartDate(start.subtract(1, "day"));
+                        setSelectedOptionEnd("exact-year");
+                        setEndDate(endDate.add(1, "day"));
+                      }
+                      const start = dayjs(date, exactDateFormat);
+                      setStartDate(start.subtract(1, "day"));
+                    }}
+                  />
+                </>
+              )}
+              {selectedOption === "month" && (
+                <DatePicker
+                  status="error"
+                  format={monthFormat}
+                  picker="month"
+                  placeholder="Select start date!"
+                  onChange={(date) => {
+                    if (selectedDateOption === "one_date") {
+                      const start = dayjs(date, monthFormat);
+                      const endDate = dayjs(date, monthFormat);
+                      setStartDate(start.subtract(1, "month"));
+                      setSelectedOptionEnd("month");
+                      setEndDate(endDate.add(1, "month"));
+                      console.log("burada");
+                    }
+                    const start = dayjs(date, monthFormat);
+                    setStartDate(start.subtract(1, "month"));
+                  }}
                 />
-                {selectedOptionEnd === "exact-year" && (
-                  <>
+              )}
+              {selectedOption === "year" && (
+                <DatePicker
+                  placeholder="Select start date!"
+                  status="error"
+                  format={yearFormat}
+                  picker="year"
+                  onChange={(date) => {
+                    if (selectedDateOption !== "interval") {
+                      const start = dayjs(date, yearFormat);
+                      const endDate = dayjs(date, yearFormat);
+                      setStartDate(start.subtract(1, "year"));
+                      setSelectedOptionEnd("year");
+                      setEndDate(endDate.add(1, "year"));
+                    }
+                    const start = dayjs(date, yearFormat);
+                    setStartDate(start.subtract(1, "year"));
+                  }}
+                />
+              )}
+            </Col>
+          </Form.Item>
+          {selectedDateOption === "interval" && (
+            <Form.Item>
+              <Select
+                allowClear
+                value={selectedSeasonEnd}
+                onChange={(value) => setSelectedSeasonEnd(value)}
+                options={seasonOptions}
+                placeholder="Select a season."
+              />
+            </Form.Item>
+          )}
+
+          {selectedDateOption === "interval" && (
+            <>
+              <Form.Item>
+                <Col>
+                  <Radio.Group
+                    options={options}
+                    onChange={onRadioChangeEnd}
+                    value={selectedOptionEnd}
+                    optionType="button"
+                    buttonStyle="solid"
+                  />
+                  {selectedOptionEnd === "exact-year" && (
+                    <>
+                      <DatePicker
+                        placeholder="Select end date!"
+                        picker="date"
+                        disabledDate={disabledDate}
+                        format={exactDateFormat}
+                        onChange={(date) => {
+                          const start = dayjs(date, exactDateFormat);
+                          setEndDate(start.add(1, "day"));
+                        }}
+                      />
+                    </>
+                  )}
+                  {selectedOptionEnd === "month" && (
                     <DatePicker
                       placeholder="Select end date!"
-                      picker="date"
+                      format={monthFormat}
                       disabledDate={disabledDate}
-                      format={exactDateFormat}
+                      picker="month"
                       onChange={(date) => {
-                        const start = dayjs(date, exactDateFormat);
-                        setEndDate(start.add(1, "day"));
+                        const start = dayjs(date, monthFormat);
+                        setEndDate(start.add(1, "month"));
                       }}
                     />
-                  </>
-                )}
-                {selectedOptionEnd === "month" && (
-                  <DatePicker
-                    placeholder="Select end date!"
-                    format={monthFormat}
-                    disabledDate={disabledDate}
-                    picker="month"
-                    onChange={(date) => {
-                      const start = dayjs(date, monthFormat);
-                      setEndDate(start.add(1, "month"));
-                    }}
-                  />
-                )}
-                {selectedOptionEnd === "year" && (
-                  <DatePicker
-                    placeholder="Select end date!"
-                    format={yearFormat}
-                    picker="year"
-                    disabledDate={disabledDate}
-                    onChange={(date) => {
-                      const start = dayjs(date, yearFormat);
-                      setEndDate(start.add(1, "year"));
-                    }}
-                  />
-                )}
-              </Col>
-            </Form.Item>
-          </>
-        )}
+                  )}
+                  {selectedOptionEnd === "year" && (
+                    <DatePicker
+                      placeholder="Select end date!"
+                      format={yearFormat}
+                      picker="year"
+                      disabledDate={disabledDate}
+                      onChange={(date) => {
+                        const start = dayjs(date, yearFormat);
+                        setEndDate(start.add(1, "year"));
+                      }}
+                    />
+                  )}
+                </Col>
+              </Form.Item>
+            </>
+          )}
+        </Form.Item>}
         <Form.Item>
           <Row>
             <div className="form-group">

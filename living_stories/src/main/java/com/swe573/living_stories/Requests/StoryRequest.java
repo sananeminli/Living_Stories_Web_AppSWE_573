@@ -29,6 +29,8 @@ public class StoryRequest {
 
     private String startSeason;
     private String endSeason;
+    private String decade;
+
 
 
 

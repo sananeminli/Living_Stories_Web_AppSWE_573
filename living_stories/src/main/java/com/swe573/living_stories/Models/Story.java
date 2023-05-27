@@ -60,6 +60,8 @@ import java.util.List;
         @Column(columnDefinition = "TEXT")
         private String richText;
 
+        private String decade;
+
 
 
 

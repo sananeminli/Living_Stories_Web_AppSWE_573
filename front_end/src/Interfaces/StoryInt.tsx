@@ -32,5 +32,6 @@ export interface StoryInt {
   endDate: string;
   startSeason?: string,
   endSeason?:string ,
+  decade?:string
 
 }
