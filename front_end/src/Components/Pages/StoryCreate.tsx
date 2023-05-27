@@ -31,6 +31,7 @@ interface Location {
 
 interface Story {
   text: string;
+  decade?: string;
   header: string;
   labels: string[];
   locations: Location[];
@@ -50,6 +51,11 @@ const options: Option[] = [
   { label: "Exact Date", value: "exact-year" },
   { label: "Month", value: "month" },
   { label: "Year", value: "year" },
+];
+const decadeOption: Option[] = [
+  { label: "Date", value: "date" },
+  { label: "Decade", value: "decade" },
+  
 ];
 
 const exactDateFormat = "DD/MM/YYYY";
@@ -80,12 +86,39 @@ const Story: React.FC = () => {
   const [selectedSeasonEnd, setSelectedSeasonEnd] = useState<string>();
   const [requestStartDate, setRequestStartDate] = useState<string>();
   const [selectedOptionEnd, setSelectedOptionEnd] = useState<string>("exact-year");
+  const [selectedDateInput, setSelectedDateInput] = useState<string>("date");
+  const [selectedDecadeValue, setSelectedDecadeValue] = useState<number>();
+  const [decade, setDecade] = useState<string>();
+
   const seasonOptions = [
     { value: "spring", label: "Spring" },
     { value: "summer", label: "Summer" },
     { value: "fall", label: "Fall" },
     { value: "winter", label: "Winter" },
   ];
+
+  const decadeSelectOptions = [
+    { value: 1901 , label: "1900s" },
+    { value: 1911, label: "1910s" },
+    { value: 1921, label: "1920s" },
+    { value: 1931, label: "1930s" },
+    { value: 1941, label: "1940s" },
+    { value: 1951, label: "1950s" },
+    { value: 1961, label: "1960s" },
+    { value: 1971, label: "1970s" },
+    { value: 1981, label: "1980s" },
+    { value: 1991, label: "1990s" },
+    { value: 2001, label: "2000s" },
+    { value: 2011, label: "2010s" },
+    {value:2025 , label:"2020s"}
+    ];
+    
+    
+    
+    
+    
+    
+    
   const dateFormats: { [key: string]: string } = {
     "exact-year": "DD/MM/YYYY",
     month: "MM/YYYY",
@@ -114,6 +147,9 @@ const Story: React.FC = () => {
   };
   const onRadioChangeEnd = (e: RadioChangeEvent) => {
     setSelectedOptionEnd(e.target.value);
+  };
+  const onRadioChangeInput = (e: RadioChangeEvent) => {
+    setSelectedDateInput(e.target.value);
   };
 
   const navigate = useNavigate();
@@ -257,7 +293,8 @@ const Story: React.FC = () => {
       ...(startDate && { startDate: combinedStartDateTimeString }),
       ...(endtDate && { endDate: combinedEndDateTimeString }),
       ...(selectedSeason && { startSeason: selectedSeason }),
-      ...(selectedSeasonEnd && { endSeason: selectedSeasonEnd })
+      ...(selectedSeasonEnd && { endSeason: selectedSeasonEnd }),
+      ...(decade && { decade: decade })
     };
     async function postData() {
       const requiredFieldsEmpty = [storyRequest.richText, storyRequest.header, storyRequest.locations,storyRequest.startDate].some(
@@ -385,6 +422,34 @@ const Story: React.FC = () => {
           </Col>
         </Row>
         <Row>
+        <Radio.Group
+                options={decadeOption}
+                onChange={onRadioChangeInput}
+                value={selectedDateInput}
+                optionType="button"
+                buttonStyle="solid"
+                style={{marginBottom:"10px"}}
+              />
+          
+        </Row>
+        { selectedDateInput!=="date"&& <Row>
+        <Select
+                value={selectedDecadeValue}
+                onChange={(value:number) =>{
+                  const decString = value-1
+                  const decEndString = value+7
+                  setDecade(decString.toString() + "s")
+                  setStartDate(dayjs(value.toString() , yearFormat))
+                  setEndDate(dayjs(decEndString.toString() , yearFormat))
+               
+                }}
+                options={decadeSelectOptions}
+                placeholder="Select a decade."
+                style={{marginBottom:"30px"}}
+              />
+          </Row>}
+        
+      { selectedDateInput==="date"&& <Row>
           <Col style={{marginRight:"30px"}}>
             <Row>
               <Select
@@ -523,7 +588,7 @@ const Story: React.FC = () => {
               )}
             </Row>
           </Col>
-        </Row>
+        </Row>}
       </Container>
       <Container>
         <Row>
